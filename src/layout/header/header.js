@@ -115,7 +115,7 @@ class Header extends Component {
             <>
                 {(this.state.loader == false) ?
                     <>
-                        <header className="site-header">
+                        <header className="site-header mb-3">
                             <Headertop />
                             <Headerlogo />
                             <div id="header-wrap" className={`${(visible) ? "shadow-sm fixed-header " : "shadow-sm"}`} >

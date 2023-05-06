@@ -61,7 +61,39 @@ class Herosection4 extends Component {
               </nav>
             </Col>
             <Col lg={9}>
-
+              <OwlCarousel
+                className="banner-slider owl-carousel no-pb h-100"
+                {...this.state.options}
+                dotData="false"
+                margin={5}
+              >
+                <div className="item bg-pos-rb" style={{ backgroundImage: `url(${require(`../../assets/images/electronic/bg/01.jpg`)})` }}>
+                  <Container className="h-100">
+                    <Row className="h-100 align-items-center">
+                      <div className="col py-8 py-lg-0">
+                        <div className="animated3"> <span className="bg-dark d-inline-block text-white px-2 py-1 mb-0">Only This Week</span>
+                          <br />
+                          <h5 className="bg-primary d-inline-block text-white font-w-7 px-3 py-1">25% OFF On Product</h5>
+                        </div>
+                        <h1 className="mt-4 animated3">Latest Stylish<br />Mackbook</h1>
+                      </div>
+                    </Row>
+                  </Container>
+                </div>
+                <div className="item bg-pos-rb" style={{ backgroundImage: `url(${require(`../../assets/images/electronic/bg/02.jpg`)})` }}>
+                  <Container className="h-100">
+                    <Row className="h-100 align-items-center">
+                      <div className="col py-8 py-lg-0">
+                        <div className="animated3"> <span className="bg-dark d-inline-block text-white px-2 py-1 mb-0">Only This Week</span>
+                          <br />
+                          <h5 className="bg-primary d-inline-block text-white font-w-7 px-3 py-1">25% OFF On Product</h5>
+                        </div>
+                        <h1 className="mt-4 animated3">New Arrived<br />Iphone Pro</h1>
+                      </div>
+                    </Row>
+                  </Container>
+                </div>
+              </OwlCarousel>
             </Col>
           </Row>
         </Container>

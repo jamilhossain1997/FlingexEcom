@@ -56,22 +56,9 @@ class index extends Component {
               <Brand />
             </section>
 
-            <section>
-              <div className="container-fluid px-lg-8">
-                <Row className="justify-content-center text-center">
-                  <Col lg={8} md={10}>
-                    <div className="mb-8">
-                      <h6 className="text-primary mb-1">
-                        — Featured Product
-                      </h6>
-                      {/* <h2 className="mb-0">Trending Products</h2> */}
-                    </div>
-                  </Col>
-                </Row>
-                <FeaturedProduct />
-              </div>
-
-            </section>
+            <div className="container-fluid mb-3">
+              <FeaturedProduct />
+            </div>
 
             {/*feature end*/}
             {/*product start*/}

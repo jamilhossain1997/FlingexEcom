@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Container } from 'reactstrap';
+import { Col, Container, Row } from 'reactstrap';
 import OwlCarousel from 'react-owl-carousel';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
@@ -16,11 +16,38 @@ const bannerapi = async () => {
 
 const herosection7 = () => {
     const [banner, SetBanner] = useState([]);
+    const [catgory, setCatgory] = useState([]);
+
+
+    const options = {
+        loop: true,
+        dots: false,
+        responsive: {
+            0: {
+                items: 1,
+            },
+            600: {
+                items: 1,
+            },
+            1000: {
+                items: 1,
+            },
+        },
+    }
+
+    // const history = useHistory();
     const { isLoading, error, data } = useQuery('bannerapi', bannerapi);
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
     // console.log(data)
+    useEffect(() => {
+        apiClient.get(`/v1/categories`)
+            .then(res => {
+                setCatgory(res.data);
+            })
+    }, []);
 
 
     if (isLoading) return (
@@ -31,62 +58,52 @@ const herosection7 = () => {
 
 
     return (
-        <section className="banner pos-r p-0">
-            <OwlCarousel
-                className="banner-slider owl-carousel no-pb owl-2"
-                dots={false}
-                nav
-                items={1}
-                autoplay={true}
-                navText={["<span class='las la-arrow-left'><span></span></span>", "<span class='las la-arrow-right'><span></span></span>"]}
-            >
-                {/* {
-                    data?.map((item, i) => {
-                        return (
-                            <session>
-                                {
+        <section className="banner pos-r p-0 mb-3">
+            <Container fluid>
+                <Row>
+                    <Col lg={3}>
+                        <nav className="navbar navbar-expand-lg navbar-light categories d-block shadow-sm">
+                            <button className="navbar-toggler d-flex align-items-center text-uppercase" type="button" data-toggle="collapse" data-target="#categoriesDropdown" aria-controls="categoriesDropdown" aria-expanded="false" aria-label="Toggle navigation"> <i className="las la-stream" />Categories</button>
+                            <div className="collapse navbar-collapse" id="categoriesDropdown">
+                                <ul className="navbar-nav d-block w-100">
 
-
-                                    item ? <img src={`${imgUrl}/storage/app/public/banner/${item.photo}`} alt='hello' />
-                                        : <Skeleton count={1} style={{ height: `300px` }} />
-
-                                }
-                            </session>
-
-
-                        )
-
-                    })
-                } */}
-
-                {
-                    data?.map((item, i) => {
-                        return (
-                            <div className="item bg-pos-rt" style={{ backgroundImage: `url(${imgUrl}storage/app/public/banner/${item.photo})`, backgroundSize: `auto`, height: `500px`, backgroundPosition: `center center` }}>
-                                <Container className="h-100">
-                                    <Row className="h-100 align-items-center">
-                                        <div className="col-lg-7 col-md-12 custom-py-1 position-relative z-index-1">
-                                            {/* <h6 className="font-w-6 text-primary animated3">Welcome Ekocart</h6> */}
-                                            {/* <h1 className="mb-4 animated3">A New Online<br /> Shop experience</h1> */}
-                                            {/* <div className="animated3">
-                                                <Link className="btn btn-primary btn-animated" to="#">Shop Now</Link>
-                                            </div> */}
-                                            {/* <div className="hero-circle animated4" /> */}
-                                        </div>
-                                    </Row>
-                                </Container>
+                                    {
+                                        catgory?.map((item, i) =>
+                                            <li className="nav-item" key={i}> <Link className="nav-link" to="#">{item.name}</Link>
+                                            </li>
+                                        )
+                                    }
+                                </ul>
                             </div>
+                        </nav>
+                    </Col>
+                    <Col lg={9}>
+                        <OwlCarousel
+                            className="banner-slider owl-carousel no-pb h-100"
+                            {...options}
+                            dotData="false"
+                            margin={5}
+                        >
+                            {
+                                data?.map((item, i) => {
+                                    return (
+                                        <div key={i}>
+                                            {
 
 
-                        )
+                                                item ? <Link to={`${item.url}`}><img className='d-block w-100' style={{ maxHeight: `800px` }} src={`${imgUrl}/storage/app/public/banner/${item.photo}`} alt={`${item.url}`} /></Link>
+                                                    : <Skeleton count={1} />
 
-                    })
-                }
+                                            }
+                                        </div>
+                                    )
+                                })
+                            }
+                        </OwlCarousel>
+                    </Col>
 
-
-
-
-            </OwlCarousel>
+                </Row>
+            </Container>
         </section>
     )
 }

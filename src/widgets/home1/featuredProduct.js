@@ -1,5 +1,5 @@
-import React from 'react'
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, Modal, ModalHeader, ModalBody, Row, Col } from 'reactstrap';
+import React, { useState, useEffect } from "react";
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, Modal, ModalHeader, ModalBody, Row, Col, Container, CardBody, CardText, CardSubtitle, CardTitle } from 'reactstrap';
 import { toast, ToastContainer } from 'react-toastify';
 // import OwlCarousel from 'react-owl-carousel';
 // import 'owl.carousel/dist/assets/owl.carousel.css';
@@ -14,421 +14,385 @@ import imgUrl from '../../api/baseUrl';
 import { RiShoppingBag3Line } from "react-icons/ri";
 
 
-// import Productlist from '../../api/product';
 
+const featuredpi = async () => {
+    const result = await apiClient.get(`v1/products/featuredWeb`);
+    return result.data;
+};
+const featuredProduct = () => {
+    const [activeTab, setActiveTap] = useState(1);
+    const [modelview, setModelview] = useState(false);
+    const [viewproduct, setViewproduct] = useState("");
+    const [selectedColor, setSelectedColor] = useState('');
+    const [selectedSize, setSelectedSize] = useState('');
+    const { isLoading, error, data } = useQuery("featuredpi1", featuredpi);
+    const [visible, setVisible] = useState(12);
+    const [isCompleted, setIsCompleted] = useState(false);
 
-// window.fn = OwlCarousel;
-
-
-// const bestSeller = async () => {
-//     const result = await apiClient.get(`/v1/products/home-categories`)
-//     return result.data;
-// }
-class FeaturedProduct extends React.Component {
-    constructor(props) {
-        super(props);
-        this.quickview = this.quickview.bind(this);
-        this.state = {
-            modelview: false,
-            viewproduct: [],
-            FeaturedProduct: [],
-            // options: {
-            //     loop: true,
-            //     nav: true,
-            //     dots: false,
-            //     responsive: {
-            //         0: {
-            //             items: 1,
-            //         },
-            //         300: {
-            //             items: 1,
-            //         },
-            //         600: {
-            //             items: 2,
-            //         },
-            //         1000: {
-            //             items: 5,
-            //         },
-            //     },
-            // },
-        };
-
-    }
-
-    componentDidMount() {
-        apiClient.get(`/v1/products/featured`)
-            .then(res => {
-                const FeaturedProduct = res.data.products;
-                this.setState({ FeaturedProduct });
-            })
-    }
-
-    quickview() {
-        this.setState(prevState => ({
-            modelview: !prevState.modelview
-        }));
-    }
-    onClickQuickView(product) {
-        this.setState({
-            modelview: true,
-            viewproduct: product
-        })
-    }
-    Productaddcart(ProductID, ProductName, ProductImage, Qty, Rate, StockStatus) {
-        var Cart = JSON.parse(localStorage.getItem("CartProduct"));
-        if (Cart == null)
-            Cart = new Array();
-        let Productadd = Cart.find(product => product.ProductID === ProductID);
-        if (Productadd == null) {
-            Cart.push({ ProductID: ProductID, ProductName: ProductName, ProductImage: ProductImage, Qty: Qty, Rate: Rate, StockStatus: StockStatus });
-            localStorage.removeItem("CartProduct");
-            localStorage.setItem("CartProduct", JSON.stringify(Cart));
-            var flag = 0;
-            if (flag == 0) {
-                toast.success("Item Added to Cart");
-                flag = 1;
-            }
+    // LoadMore
+    const loadMore = () => {
+        setVisible((prev) => prev + 8);
+        if (visible >= data?.length) {
+            setIsCompleted(true)
+        } else {
+            setIsCompleted(false)
         }
-        else {
-            toast.warning("Item is already in Cart");
+    };
+
+
+    // quickview
+
+    function quickview() {
+        setModelview(!modelview);
+    }
+
+    function toggle(tab) {
+        if (activeTab !== tab) {
+            setActiveTap(tab);
         }
     }
 
-
-    Productbuycart(ProductID, ProductName, ProductImage, Qty, Rate, StockStatus) {
-        var Cart = JSON.parse(localStorage.getItem("CartProduct"));
-        if (Cart == null)
-            Cart = new Array();
-        let Productadd = Cart.find(product => product.ProductID === ProductID);
-        if (Productadd == null) {
-            Cart.push({ ProductID: ProductID, ProductName: ProductName, ProductImage: ProductImage, Qty: Qty, Rate: Rate, StockStatus: StockStatus });
-            localStorage.removeItem("CartProduct");
-            localStorage.setItem("CartProduct", JSON.stringify(Cart));
-            var flag = 0;
-            if (flag == 0) {
-                toast.success("Item Added to Cart");
-                flag = 1;
-            }
-        }
-        else {
-            toast.warning("Item is already in Cart");
-        }
+    function onClickQuickView(product) {
+        setModelview(true);
+        setViewproduct(product);
     }
 
-
-    Productaddwishlist(ProductID, ProductName, ProductImage, Qty, Rate, StockStatus) {
-        var Cart = JSON.parse(localStorage.getItem("WishlistProduct"));
-        if (Cart == null)
-            Cart = new Array();
-
-        let Productadd = Cart.find(product => product.ProductID === ProductID);
-        if (Productadd == null) {
-
-            Cart.push({ ProductID: ProductID, ProductName: ProductName, ProductImage: ProductImage, Qty: Qty, Rate: Rate, StockStatus: StockStatus });
-            localStorage.removeItem("WishlistProduct");
-            localStorage.setItem("WishlistProduct", JSON.stringify(Cart));
-
-            toast.success("Item Added to WishList");
-        }
-        else {
-            toast.warning("Item is already in WishList");
-        }
-
-
-    }
-    CartItems(ID) {
-        let checkcart = false;
-        var Cart = JSON.parse(localStorage.getItem("CartProduct"));
-        if (Cart && Cart.length > 0) {
-            for (const cartItem of Cart) {
-                if (cartItem.ProductID === ID) {
-                    checkcart = true
-                }
-            }
-        }
-        return checkcart;
-    }
-    WishlistItems(ID) {
+    // WishlistItems
+    function WishlistItems(ID) {
         let wishlist = false;
         var Wish = JSON.parse(localStorage.getItem("WishlistProduct"));
 
         if (Wish && Wish.length > 0) {
             for (const wishItem of Wish) {
                 if (wishItem.ProductID === ID) {
-                    wishlist = true
+                    wishlist = true;
                 }
             }
         }
         return wishlist;
     }
 
-    render() {
-        let { viewproduct } = this.state;
-        const convert = 0.011904761904762;
+    function Productaddwishlist(ProductID, ProductName, ProductImage, Qty, Rate, discount, StockStatus) {
+        var Cart = JSON.parse(localStorage.getItem("WishlistProduct"));
+        if (Cart == null) Cart = new Array();
+
+        let Productadd = Cart.find((product) => product.ProductID === ProductID);
+        if (Productadd == null) {
+            Cart.push({ ProductID: ProductID, ProductName: ProductName, ProductImage: ProductImage, Qty: Qty, Rate: Rate, Discount: discount, StockStatus: StockStatus });
+            localStorage.removeItem("WishlistProduct");
+            localStorage.setItem("WishlistProduct", JSON.stringify(Cart));
+
+            toast.success("Item Added to WishList");
+        } else {
+            toast.warning("Item is already in WishList");
+        }
+    }
+
+    // cart add
+    function Productaddcart(ProductID, ProductName, ProductImage, Qty, Rate, discount, StockStatus) {
+        var Cart = JSON.parse(localStorage.getItem("CartProduct"));
+        if (Cart == null) Cart = new Array();
+        let Productadd = Cart.find((product) => product.ProductID === ProductID);
+        if (Productadd == null) {
+            Cart.push({ ProductID: ProductID, ProductName: ProductName, ProductImage: ProductImage, Qty: Qty, Rate: Rate, Discount: discount, StockStatus: StockStatus });
+            localStorage.removeItem("CartProduct");
+            localStorage.setItem("CartProduct", JSON.stringify(Cart));
+            var flag = 0;
+            if (flag == 0) {
+                toast.success("Item Added to Cart");
+                flag = 1;
+            }
+        } else {
+            toast.warning("Item is already in Cart");
+        }
+    }
+
+    // CartItems
+
+    function CartItems(ID) {
+        let checkcart = false;
+        var Cart = JSON.parse(localStorage.getItem("CartProduct"));
+        if (Cart && Cart.length > 0) {
+            for (const cartItem of Cart) {
+                if (cartItem.ProductID === ID) {
+                    checkcart = true;
+                }
+            }
+        }
+        return checkcart;
+    }
+
+    function onChangeColor(event) {
+        console.log(event.target.value);
+        setSelectedColor(event.target.value)
+        // this.setState({
+        //   selectedColor: event.target.value
+        // });
+    }
+
+    if (isLoading) {
         return (
             <>
-                <ToastContainer autoClose={900} />
-                <div className="shadow p-sm-8 p-0 bg-white">
-
+                <Container fluid>
                     <Row>
+                        {
+                            Array(5).fill(undefined).map((v, i) =>
+                                <>
+                                    <Col xs={6} xl={3} lg={3} md={6} key={i}>
+                                        <Skeleton variant="rectangular" height={200} width={300} />
+                                        <Skeleton variant="rectangular" width={300} count={3} />
+                                    </Col>
+                                </>
 
-                        {/* Tab panes */}
-
-                        {this.state.FeaturedProduct?.map((productdata, index) => (
-                            <Col xs={6} xl={3} lg={4} md={6} key={index}>
-
-                                <div className="card product-card">
-                                    {!this.WishlistItems(productdata.id) ? (
-                                        <Link
-                                            to="#"
-                                            onClick={() => this.Productaddwishlist(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)}
-                                            className="btn-wishlist btn-sm"
-                                            id="addtowish"
-                                        >
-                                            <i className="lar la-heart" />
-                                        </Link>
-                                    ) : (
-                                        <Link to="/cart" className="btn-wishlist btn-sm" id="viewwishlist">
-                                            <i className="las la-heart" />
-                                        </Link>
-                                    )}
-
-                                    {/* <img className="card-img-top card-img-back" src={require(`http://127.0.0.1:8000/storage/product/thumbnail/${productdata.images}`).default} alt="..." /> */}
-                                    {/* <img className="card-img-top card-img-front" src={require(`http://127.0.0.1:8000/storage/product/thumbnail/${productdata.thumbnail}`).default} alt="..." /> */}
-                                    {
-                                        productdata.thumbnail ?
-                                            <Link className="card-img-hover d-block" to={`/product-single/${productdata.slug}`}>
-                                                <img className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/${productdata.images[0]}`} alt="hello" />
-                                                <img className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} alt="hello" />
-                                            </Link>
-                                            : <Skeleton count={3} />
-                                    }
-
-
-                                    <div className="card-info">
-                                        <div className="card-body">
-                                            <div className="product-title">
-                                                <Link to="/product-single" className="link-title">
-                                                    {productdata.name}
-                                                </Link>
-                                            </div>
-                                            <div className="mt-1">
-                                                <span className="product-price">
-
-                                                    {
-                                                        productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <> Discount: {Math.round((productdata.discount))}%</> : null : null
-                                                    }
-
-                                                    {
-                                                        productdata.discount > 0 ? productdata?.discount_type == 'flat' ? <> Discount: ৳{Math.round((productdata.discount / convert))}</> : null : null
-                                                    }
-                                                </span><br />
-                                                <span className="product-price">
-                                                    {
-                                                        productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <>৳{(Math.round(productdata?.unit_price / convert, 2)) - (Math.round(((productdata?.unit_price / convert * productdata?.discount)), 2) / 100)}</> : <>৳{(Math.round(productdata?.unit_price / convert, 2)) - (Math.round((productdata?.discount) / convert, 2))}</> : <>৳{Math.round(productdata?.unit_price / convert, 2)}</>
-                                                    }
-                                                    <span>
-                                                        {
-                                                            productdata?.discount > 0 ? <del className="text-muted h6"> ৳{Math.round(productdata?.unit_price / convert, 2)}</del>
-                                                                : null
-                                                        }
-                                                    </span>
-                                                    {/* <del className="text-muted">{productdata.unit_price}</del>{productdata.unit_price} */}
-                                                </span>
-                                                <div className="star-rating"><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card-footer bg-transparent border-0">
-                                            <div className="product-link d-flex align-items-center justify-content-center">
-                                                {!this.CartItems(productdata.id) ? (
-                                                    <Link
-                                                        to="/cart"
-                                                        onClick={() => this.Productbuycart(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)}
-                                                        className="btn btn-view mx-3"
-                                                        rel="nofollow"
-                                                        id="addtocard1"
-                                                    >
-                                                        <RiShoppingBag3Line className="mr-1" />
-                                                    </Link>
-                                                ) : (
-                                                    <Link to="/cart" className="btn btn-view" rel="nofollow" id="viewcart1">
-                                                        <RiShoppingBag3Line className="mr-1" />
-                                                    </Link>
-                                                )}
-                                                {/* {!this.WishlistItems(productdata.id) ? (
-                                                    <Link
-                                                        to="#"
-                                                        onClick={() => this.Productaddwishlist(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)}
-                                                        className="btn btn-compare"
-                                                        id="addtowish1"
-                                                    >
-                                                        <RiShoppingBag3Line  className="mr-1"/>
-                                                    </Link>
-                                                ) : (
-                                                    <Link to="/cart" className="btn btn-compare" id="viewwishlist1">
-                                                        <i className="las la-heart mr-1"></i>
-                                                    </Link>
-                                                )} */}
-                                                {!this.CartItems(productdata.id) ? (
-                                                    <Link
-                                                        to="#"
-                                                        onClick={() => this.Productaddcart(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)}
-                                                        className="btn-cart btn btn-primary btn-animated mx-3"
-                                                        rel="nofollow"
-                                                        id="addtocard1"
-                                                    >
-                                                        <i className="las la-shopping-cart mr-1" />
-                                                    </Link>
-                                                ) : (
-                                                    <Link to="/cart" className="btn-cart btn btn-primary btn-animated mx-3" rel="nofollow" id="viewcart1">
-                                                        <i className="las-regular la-bag-shopping mr-1" />
-                                                    </Link>
-                                                )}
-                                                <Link to="#" onClick={() => this.onClickQuickView(productdata)} className="btn btn-view" id="quickview1">
-                                                    <i className="las la-eye" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </Col>
-
-                        ))}
-
-
+                            )
+                        }
                     </Row>
-                </div>
-                <Modal isOpen={this.state.modelview} toggle={this.modelview} className="view-modal">
-                    <ToastContainer autoClose={900} />
-                    <ModalHeader className="border-bottom-0 pb-0">
-                        <Button className="close " color="danger" onClick={() => this.quickview()} ><span aria-hidden="true">×</span></Button>
-                    </ModalHeader>
-                    <ModalBody>
-                        <Row className="align-items-center">
-                            <div className="col-lg-5 col-12">
-                                <img className="img-fluid rounded" src={`${imgUrl}storage/app/public/product/thumbnail/${viewproduct.thumbnail}`} alt="hello" />
-                            </div>
-                            <div className="col-lg-7 col-12 mt-5 mt-lg-0">
-                                <div className="product-details">
-                                    <h3 className="mb-0">{viewproduct.name}</h3>
-                                    <div className="star-rating mb-4"><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" />
-                                    </div>
-                                    <span className="product-price h4">
-                                        <span className="product-price">
+                </Container>
+            </>
 
+        );
+    }
+    const convert = 0.011904761904762;
+    return (
+        <>
+            <Row className="justify-content-center text-center">
+                <Col lg={8} md={10}>
+                    <div className="mb-2">
+                        <h6 className="text-primary mb-1">
+                            — Featured Product
+                        </h6>
+                        {/* <h2 className="mb-0">Trending Products</h2> */}
+                    </div>
+                </Col>
+            </Row>
+            <div className="">
+                <Container fluid>
+                    <Row>
+                        <ToastContainer autoClose={900} />
+                        {data?.slice(0, visible).map((productdata) => {
+                            return (
+                                <React.Fragment key={productdata.id}>
+                                    <Col xs={6} xl={3} lg={2} md={6} >
+                                        <Card
+                                            style={{
+                                                width: '10rem'
+                                            }}
+                                            className="mb-1"
+                                        >
                                             {
-                                                viewproduct.discount > 0 ? viewproduct?.discount_type == 'percent' ? <> Discount:{Math.round((viewproduct.discount))}%</> : null : null
+                                                productdata.thumbnail ?
+                                                    <Link className="card-img-hover d-block" to={`/product-single/${productdata.slug}`}>
+                                                        <img className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata?.thumbnail}`} alt={`${productdata.slug}`} />
+                                                        <img className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata?.thumbnail}`} alt={`${productdata.slug}`} />
+                                                    </Link>
+                                                    : <Skeleton count={3} />
                                             }
 
-                                            {
-                                                viewproduct.discount > 0 ? viewproduct?.discount_type == 'flat' ? <> Discount:৳{Math.round((viewproduct.discount / convert))}</> : null : null
-                                            }
-                                        </span><br />
-                                        <span className="product-price">
-                                            {
-                                                viewproduct.discount > 0 ? viewproduct?.discount_type == 'percent' ? <>৳{(Math.round(viewproduct?.unit_price / convert, 2)) - (Math.round(((viewproduct?.unit_price / convert * viewproduct?.discount)), 2) / 100)}</> : <>৳{(Math.round(viewproduct?.unit_price / convert, 2)) - (Math.round((viewproduct?.discount) / convert, 2))}</> : <>৳{Math.round(viewproduct?.unit_price / convert, 2)}</>
-                                            }
-                                            <span>
+                                            <Link className="ml-1 link-title" style={{ fontSize: 12 }} to={`/product-single/${productdata.slug}`} >
+                                                {productdata.name}
+                                            </Link>
+                                            <CardSubtitle
+                                                className="ml-1 text-primary"
+                                                tag="h6"
+                                            >
                                                 {
-                                                    viewproduct?.discount > 0 ? <del className="text-muted h6"> ৳{Math.round(viewproduct?.unit_price / convert, 2)}</del>
+                                                    productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <><span style={{ fontSize: 13 }}>৳{Math.round((productdata?.unit_price / convert) - (productdata?.unit_price / convert * productdata?.discount) / 100)} </span></> : <><span style={{ fontSize: 13 }}>৳{(Math.round(productdata?.unit_price / convert) - ((productdata?.discount) / convert))}</span></> : <><span style={{ fontSize: 13 }}>৳{Math.round(productdata?.unit_price / convert)}</span></>
+                                                }
+
+                                            </CardSubtitle>
+                                            <CardSubtitle>
+
+                                                {
+                                                    productdata?.discount > 0 ? <del className="text-muted ml-1 h6" style={{ fontSize: 12 }}> ৳{Math.round(productdata?.unit_price / convert, 2)}</del>
                                                         : null
                                                 }
-                                            </span>
-                                            {/* <del className="text-muted">{productdata.unit_price}</del>{productdata.unit_price} */}
+
+
+                                                {
+                                                    productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>-{Math.round((productdata.discount))}%</span></> : null : null
+                                                }
+
+                                                {
+                                                    productdata.discount > 0 ? productdata?.discount_type == 'flat' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>- ৳{Math.round((productdata.discount / convert))}</span></> : null : null
+                                                }
+
+
+
+                                            </CardSubtitle>
+
+
+
+                                        </Card>
+
+                                    </Col>
+                                </React.Fragment>
+                            );
+                        })}
+
+                    </Row>
+                    <div className="d-grid mt-3 mb-5 justify-content-center text-center">
+                        {isCompleted ? (
+                            <button
+                                onClick={loadMore}
+                                type="button"
+                                className="btn btn-danger disabled"
+                            >
+                                That's It
+                            </button>
+                        ) : (
+                            <button onClick={loadMore} type="button" className="btn btn-danger">
+                                Load More +
+                            </button>
+                        )}
+                    </div>
+                </Container>
+            </div>
+
+            <Modal isOpen={modelview} toggle={modelview} className="view-modal" style={{ maxWidth: '900px', width: '60%' }}>
+                <ToastContainer autoClose={900} />
+                <ModalHeader className="border-bottom-0 pb-0">
+                    <Button color="danger" onClick={() => quickview()} ><span aria-hidden="true">×</span></Button>
+                </ModalHeader>
+                <ModalBody>
+
+                    <Row className="align-items-center">
+
+                        <div className="col-lg-5 col-12">
+                            <img className="img-fluid rounded" src={`${imgUrl}storage/app/public/product/thumbnail/${viewproduct.thumbnail}`} alt="hello" />
+                        </div>
+
+                        <div className="col-lg-7 col-12 mt-5 mt-lg-0">
+                            <div className="product-details">
+                                <h3 className="mb-0" style={{ fontSize: `16px` }}>{viewproduct.name}</h3>
+
+                                <div className="star-rating mb-4"><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" />
+                                </div>
+                                <span className="product-price h4">
+                                    <span className="product-price">
+
+                                        {
+                                            viewproduct.discount > 0 ? viewproduct?.discount_type == 'percent' ? <> Discount:{Math.round((viewproduct.discount))}%</> : null : null
+                                        }
+
+                                        {
+                                            viewproduct.discount > 0 ? viewproduct?.discount_type == 'flat' ? <> Discount:৳{Math.round((viewproduct.discount / convert))}</> : null : null
+                                        }
+                                    </span><br />
+                                    <span className="product-price">
+                                        {
+                                            viewproduct.discount > 0 ? viewproduct?.discount_type == 'percent' ? <>৳{(Math.round(viewproduct?.unit_price / convert, 2)) - (Math.round(((viewproduct?.unit_price / convert * viewproduct?.discount)), 2) / 100)}</> : <>৳{(Math.round(viewproduct?.unit_price / convert, 2)) - (Math.round((viewproduct?.discount) / convert, 2))}</> : <>৳{Math.round(viewproduct?.unit_price / convert, 2)}</>
+                                        }
+                                        <span>
+                                            {
+                                                viewproduct?.discount > 0 ? <del className="text-muted h6"> ৳{Math.round(viewproduct?.unit_price / convert, 2)}</del>
+                                                    : null
+                                            }
                                         </span>
 
                                     </span>
 
-                                    <ul className="list-unstyled my-4">
-                                        <li className="mb-2">Availibility: <span className="text-muted"> {viewproduct.current_stock}</span>
-                                        </li>
-                                        {/* <li>Categories :<span className="text-muted"> {viewproduct.category}</span>
-                                                        </li> */}
-                                    </ul>
-                                    <p className="mb-4">{viewproduct.description}</p>
-                                    <div className="d-sm-flex align-items-center mb-5">
-                                        <div className="d-flex align-items-center mr-sm-4">
-                                            <button className="btn-product btn-product-up"> <i className="las la-minus" />
-                                            </button>
-                                            <input className="form-product" type="number" name="form-product" defaultValue={1} />
-                                            <button className="btn-product btn-product-down"> <i className="las la-plus" />
-                                            </button>
-                                        </div>
-                                        <select className="custom-select mt-3 mt-sm-0" id="inputGroupSelect01">
-                                            <option selected>Size</option>
-                                            {viewproduct?.variation?.map((sizes, index) => {
-                                                return (<option key={index}>{sizes.type}</option>)
-                                            }
-                                            )}
-                                        </select>
+                                </span>
 
-
-                                        <div className="d-flex text-center ml-sm-4 mt-3 mt-sm-0">
-                                            {(viewproduct.colors) && viewproduct.colors.map((color, index) => {
-                                                return (
-                                                    <div className="form-check pl-0 mr-3" key={index}>
-                                                        <div className="form-check pl-0">
-                                                            <input type="checkbox" value={color} className="form-check-input" />
-                                                            <label className="form-check-label" style={{ background: color }} />
-                                                        </div>
-                                                        <input type="checkbox" className="form-check-input" id={`color-filter`.index} value={color} />
-                                                        <label className="form-check-label" htmlFor={`color-filter`.index} data-bg-color={color} />
-                                                    </div>
-                                                )
-                                            }
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="d-sm-flex align-items-center mt-5">
-                                        {/* {!this.WishlistItems(viewproduct.id) ?
-                                            <Link to="#" onClick={() => this.Productaddwishlist(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)} className="btn btn-animated btn-dark"><i className="lar la-heart mr-1" />Add To Wishlist</Link>
-                                            :
-                                            <Link to="/wishlist" className="btn btn-animated btn-dark" ><i className="lar la-heart mr-1" />View Wishlist </Link>
-                                        } */}
-                                        {!this.CartItems(viewproduct.id) ?
-                                            <Link to="#" onClick={() => this.Productaddcart(viewproduct.id, viewproduct.name, viewproduct.thumbnail, viewproduct.min_qty, viewproduct.unit_price, viewproduct.current_stock)} className="btn btn-primary btn-animated mr-sm-4 mb-3 mb-sm-0" rel="nofollow" ><i className="las la-shopping-cart mr-1" />Add To Cart</Link>
-                                            :
-                                            <Link to="/cart" className="btn btn-primary btn-animated mr-sm-4 mb-3 mb-sm-0" rel="nofollow" id="viewcart1"><i className="las la-shopping-cart mr-1" />view cart</Link>
-
-                                        }
-
-
-                                        <Link to="/cart" onClick={() => this.Productaddcart(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)} className="btn btn-primary btn-animated mr-sm-4 mb-3 mb-sm-0" rel="nofollow" ><i className="las la-shopping-cart mr-1" />Buy Now</Link>
-
-                                        {/* {!this.CartItems(viewproduct.id) ?
-                                            <Link to="#" onClick={() => this.Productaddcart(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)} className="btn btn-primary btn-animated mr-sm-4 mb-3 mb-sm-0" rel="nofollow" ><i className="las la-shopping-cart mr-1" />Add To Cart</Link>
-                                            :
-                                            <Link to="/cart" className="btn btn-primary btn-animated mr-sm-4 mb-3 mb-sm-0" rel="nofollow" id="viewcart1"><i className="las la-shopping-cart mr-1" />view cart</Link>
-
-                                        } */}
-
-                                    </div>
-                                    <div className="d-sm-flex align-items-center border-top pt-4 mt-5">
-                                        <h6 className="mb-sm-0 mr-sm-4">Share It:</h6>
-                                        <ul className="list-inline">
-                                            <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-facebook" /></Link>
-                                            </li>
-                                            <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-dribbble" /></Link>
-                                            </li>
-                                            <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-instagram" /></Link>
-                                            </li>
-                                            <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-twitter" /></Link>
-                                            </li>
-                                            <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-linkedin" /></Link>
-                                            </li>
-                                        </ul>
+                                <ul className="list-unstyled my-4">
+                                    <li className="mb-2">Availibility: <span className="text-muted"> {viewproduct.current_stock}</span>
+                                    </li>
+                                    {/* <li>Categories :<span className="text-muted"> {viewproduct.category}</span>
+</li> */}
+                                </ul>
+                                <p className="mb-4">{viewproduct.description}</p>
+                                <div className="d-sm-flex align-items-center mb-5">
+                                    <div className="d-flex align-items-center mr-sm-4">
+                                        <button className="btn-product btn-product-up"> <i className="las la-minus" />
+                                        </button>
+                                        <input className="form-product" type="number" name="form-product" defaultValue={1} />
+                                        <button className="btn-product btn-product-down"> <i className="las la-plus" />
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        </Row>
-                    </ModalBody>
-                </Modal>
+                                {/* color & Size */}
+                                <div className="d-sm-flex align-items-center mb-3">
+                                    {viewproduct?.choice_options?.map((sizes, index) => {
 
-            </>
-        );
-    }
+                                        return (
+                                            <>
+                                                {
+                                                    sizes.options ? <>
+                                                        <p className='mr-3' style={{ marginTop: `10px` }}>Size:</p>
+                                                        <select className="custom-select mt-3 mt-sm-0" style={{ width: `70px` }}>
+                                                            {sizes.options.map((options, index) =>
+                                                                <option key={index}>{options}</option>)}
+                                                        </select>
+
+                                                    </> : null
+
+                                                }
+                                            </>
+
+                                        )
+
+                                    }
+                                    )}
+                                </div>
+                                <div className="d-flex text-center ml-sm-4 mt-3 mt-sm-0" id="inputGroupSelect02">
+                                    {
+                                        viewproduct?.colors == '' ? <>
+                                        </> : <><span className='mr-3'>Color:</span></>
+                                    }
+                                    {viewproduct?.colors?.map((color, index) => {
+
+                                        return (
+                                            <>
+                                                {
+                                                    color.code ?
+                                                        <> <div className="form-check pl-0 mr-3">
+                                                            <input type="checkbox" value={color.name} id={`color-filter${index}`} className="form-check-input" checked={selectedColor === color.name}
+                                                                onChange={onChangeColor} />
+                                                            <label className="form-check-label" htmlFor={`color-filter${index}`} style={{ background: `${color.code}` }} />
+                                                        </div></> : null
+                                                }
+
+                                            </>
+                                        )
+                                    }
+                                    )}
+                                </div>
+
+                                <div className="d-sm-flex align-items-center mt-5">
+
+                                    {!CartItems(viewproduct.id) ?
+                                        <Link to="#" onClick={() => Productaddcart(viewproduct.id, viewproduct.name, viewproduct.thumbnail, viewproduct.min_qty, (viewproduct.unit_price - (viewproduct?.discount_type == 'percent' ? ((viewproduct?.unit_price * viewproduct?.discount) / 100) : viewproduct.discount)), viewproduct.current_stock)} className="btn btn-primary btn-animated mr-sm-4 mb-3 mb-sm-0" rel="nofollow" ><i className="las la-shopping-cart mr-1" />Add To Cart</Link>
+                                        :
+                                        <Link to="/OneStepCheck" className="btn btn-primary btn-animated mr-sm-4 mb-3 mb-sm-0" rel="nofollow" id="viewcart1"><i className="las la-shopping-cart mr-1" />view cart</Link>
+
+                                    }
+
+
+                                    <Link to="/OneStepCheck" onClick={() => Productaddcart(viewproduct.id, viewproduct.name, viewproduct.thumbnail, viewproduct.min_qty, (viewproduct.unit_price - (viewproduct?.discount_type == 'percent' ? ((viewproduct?.unit_price * viewproduct?.discount) / 100) : viewproduct.discount)), viewproduct.current_stock)} className="btn btn-primary btn-animated mr-sm-4 mb-3 mb-sm-0" rel="nofollow" ><i className="las la-shopping-cart mr-1" />Buy Now</Link>
+
+
+                                </div>
+                                <div className="d-sm-flex align-items-center border-top pt-4 mt-5">
+                                    <h6 className="mb-sm-0 mr-sm-4">Share It:</h6>
+                                    <ul className="list-inline">
+                                        <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-facebook" /></Link>
+                                        </li>
+                                        <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-dribbble" /></Link>
+                                        </li>
+                                        <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-instagram" /></Link>
+                                        </li>
+                                        <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-twitter" /></Link>
+                                        </li>
+                                        <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-linkedin" /></Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </Row>
+                </ModalBody>
+            </Modal>
+        </>
+    );
 }
 
-export default FeaturedProduct;
+export default featuredProduct
