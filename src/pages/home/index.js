@@ -60,10 +60,8 @@ class index extends Component {
             <div className="container-fluid mb-3">
               <FeaturedProduct />
             </div>
+
             {/*feature end*/}
-            <div className="container-fluid mb-3">
-              <Newarrivedelectonic />
-            </div>
             {/*product start*/}
             <section>
               <div className="container-fluid px-lg-8">

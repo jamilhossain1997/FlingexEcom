@@ -31,7 +31,7 @@ const featuredProduct = () => {
 
     // LoadMore
     const loadMore = () => {
-        setVisible((prev) => prev + 8);
+        setVisible((prev) => prev + 12);
         if (visible >= data?.length) {
             setIsCompleted(true)
         } else {
@@ -138,11 +138,12 @@ const featuredProduct = () => {
                         {
                             Array(5).fill(undefined).map((v, i) =>
                                 <>
-                                    <Col xs={6} xl={3} lg={3} md={6} key={i}>
+                                    <Col xs={6} xl={3} lg={2} md={6} key={i}>
                                         <Skeleton variant="rectangular" height={200} width={300} />
                                         <Skeleton variant="rectangular" width={300} count={3} />
                                     </Col>
                                 </>
+
                             )
                         }
                     </Row>
@@ -157,7 +158,7 @@ const featuredProduct = () => {
             <Row className="justify-content-center text-center">
                 <Col lg={8} md={10}>
                     <div className="mb-2">
-                        <h6 className="text-info mb-1" >
+                        <h6 className="text-info mb-1">
                             — Featured Product
                         </h6>
                         {/* <h2 className="mb-0">Trending Products</h2> */}
@@ -171,10 +172,10 @@ const featuredProduct = () => {
                         {data?.slice(0, visible).map((productdata) => {
                             return (
                                 <React.Fragment key={productdata.id}>
-                                    <Col xs={6} xl={3} lg={2} md={6} >
+                                    <Col xs={6} xl={2} lg={2} md={6} >
                                         <Card
                                             style={{
-                                                width: '10rem'
+                                                width: '13rem'
                                             }}
                                             className="mb-1"
                                         >
