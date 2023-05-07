@@ -21,6 +21,7 @@ import HomeCatPro from '../../widgets/home1/homeCatPro';
 import FeaturedProduct from '../../widgets/home1/featuredProduct';
 import Brand from '../../widgets/home1/brand';
 import LatestProduct from '../../widgets/home1/latestProduct';
+import Newarrivedelectonic from '../../widgets/home1/newarrivedelectonic';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Test from '../shop/product/test';
 
@@ -52,31 +53,33 @@ class index extends Component {
             </section>
             {/* <Test /> */}
             {/* brand */}
-            <section>
+            {/* <section>
               <Brand />
-            </section>
+            </section> */}
 
             <div className="container-fluid mb-3">
               <FeaturedProduct />
             </div>
-
             {/*feature end*/}
-            {/*product start*/}
-            {/* <section>
-            <div className="container-fluid px-lg-8">
-              <Row className="justify-content-center text-center">
-                <Col lg={8} md={10}>
-                  <div className="mb-8">
-                    <h6 className="text-primary mb-1">
-                      — Fashion gallery
-                      </h6>
-                    <h2 className="mb-0">Trending Products</h2>
-                  </div>
-                </Col>
-              </Row>
-              <Fashiongallery />
+            <div className="container-fluid mb-3">
+              <Newarrivedelectonic />
             </div>
-          </section> */}
+            {/*product start*/}
+            <section>
+              <div className="container-fluid px-lg-8">
+                <Row className="justify-content-center text-center">
+                  <Col lg={8} md={10}>
+                    <div className="mb-8">
+                      <h6 className="text-primary mb-1">
+                        — Fashion gallery
+                      </h6>
+                      <h2 className="mb-0">Trending Products</h2>
+                    </div>
+                  </Col>
+                </Row>
+                <Fashiongallery />
+              </div>
+            </section>
             {/*product end*/}
 
             {/*product start*/}

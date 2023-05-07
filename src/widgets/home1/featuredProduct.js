@@ -143,7 +143,6 @@ const featuredProduct = () => {
                                         <Skeleton variant="rectangular" width={300} count={3} />
                                     </Col>
                                 </>
-
                             )
                         }
                     </Row>
@@ -158,7 +157,7 @@ const featuredProduct = () => {
             <Row className="justify-content-center text-center">
                 <Col lg={8} md={10}>
                     <div className="mb-2">
-                        <h6 className="text-primary mb-1">
+                        <h6 className="text-info mb-1" >
                             — Featured Product
                         </h6>
                         {/* <h2 className="mb-0">Trending Products</h2> */}
@@ -192,7 +191,7 @@ const featuredProduct = () => {
                                                 {productdata.name}
                                             </Link>
                                             <CardSubtitle
-                                                className="ml-1 text-primary"
+                                                className="ml-1 text-info"
                                                 tag="h6"
                                             >
                                                 {
@@ -235,12 +234,12 @@ const featuredProduct = () => {
                             <button
                                 onClick={loadMore}
                                 type="button"
-                                className="btn btn-danger disabled"
+                                className="btn btn-info disabled"
                             >
                                 That's It
                             </button>
                         ) : (
-                            <button onClick={loadMore} type="button" className="btn btn-danger">
+                            <button onClick={loadMore} type="button" className="btn btn-info">
                                 Load More +
                             </button>
                         )}

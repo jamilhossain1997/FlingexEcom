@@ -31,13 +31,13 @@ const categoryheader = () => {
 
     return (
         <UncontrolledDropdown nav inNavbar >
-            <DropdownToggle nav caret className="dropdown-item" >
+            <DropdownToggle nav caret className="dropdown-item text-info">
                 Categories
             </DropdownToggle>
             <DropdownMenu className="childsubmenu" style={{ overflowY: 'scroll', maxHeight: "200px" }}>
                 {
                     brand?.map((branditem, i) => (
-                        <DropdownItem key={i} tag={Link} to={`/catgory/${branditem.id}`} >{branditem.name}
+                        <DropdownItem className="text-info" key={i} tag={Link} to={`/catgory/${branditem.id}`} >{branditem.name}
                         </DropdownItem>
                     ))
                 }

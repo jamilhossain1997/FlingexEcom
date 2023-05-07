@@ -130,17 +130,17 @@ class Header extends Component {
                                                 <Collapse isOpen={this.state.isOpen} className="navbar-collapse" navbar>
                                                     <Nav className="navbar-nav" navbar>
                                                         <NavItem>
-                                                            <NavLink tag={Link} to="/">Home</NavLink>
+                                                            <NavLink tag={Link} to="/" className='text-info'>Home</NavLink>
                                                         </NavItem>
                                                         <Categoryheader />
                                                         <Brandheader />
 
                                                         <NavItem>
-                                                            <NavLink href="http://admin.sajerbela.com/seller/auth/login" target="_blank">Seller</NavLink>
+                                                            <NavLink className='text-info' href="http://admin.sajerbela.com/seller/auth/login" target="_blank">Seller</NavLink>
                                                         </NavItem>
 
                                                         <NavItem>
-                                                            <NavLink tag={Link} to="/discontproduct">Discount Product</NavLink>
+                                                            <NavLink className='text-info' tag={Link} to="/discontproduct">Discount Product</NavLink>
                                                         </NavItem>
                                                     </Nav>
                                                 </Collapse>
