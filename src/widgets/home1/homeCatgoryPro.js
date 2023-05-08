@@ -185,14 +185,17 @@ class Newcollection extends React.Component {
 
                             return (
                                 <>
-                                    <Row className="justify-content-center text-center mb-5" key={i}>
-                                        <Col lg={8} md={10}>
-                                            <div className="mb-5">
-                                                <h6 className="text-primary mb-0">
-                                                    — category gallery
-                                                </h6>
-                                                <h2 className="mb-0">{cat.name}</h2>
+                                    <Row className="justify-content-left text-left mb-2" key={i}>
+                                        <Col lg={12} md={12}>
+                                            <div className="float-left">
+                                                <h6 className="mb-0 text-info">{cat.name}</h6>
                                             </div>
+                                            <div className="float-right">
+                                                <button type="button" class="btn btn-info">View All</button>
+                                            </div>
+                                            <br />
+                                            <br />
+                                            <hr />
                                         </Col>
                                     </Row>
 

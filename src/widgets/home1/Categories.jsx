@@ -75,10 +75,11 @@ const Categories = () => {
 
     return (
         <Container fluid className="p-5">
-            <Row className="justify-content-center text-center">
-                <Col lg={8} md={10}>
+            <Row className="justify-content-left text-left">
+                <Col lg={12} md={12}>
                     <div className="mb-4">
-                        <h6 className="text-primary mb-1">— Categories gallery</h6>
+                        <h4 className="text-info mb-1">Categories gallery</h4>
+                        <hr />
                         {/* <h2 className="mb-0">{cat.name}</h2> */}
                     </div>
                 </Col>

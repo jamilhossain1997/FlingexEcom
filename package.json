@@ -2,7 +2,7 @@
   "name": "edb-react",
   "version": "0.1.0",
   "private": false,
-  "homepage": "https://sajerbela.com/",
+  "homepage": "https://shop.flingex.com/",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@emotion/react": "^11.10.5",

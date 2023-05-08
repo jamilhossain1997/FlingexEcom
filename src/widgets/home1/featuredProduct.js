@@ -155,12 +155,13 @@ const featuredProduct = () => {
     const convert = 0.011904761904762;
     return (
         <>
-            <Row className="justify-content-center text-center">
-                <Col lg={8} md={10}>
+            <Row className="justify-content-center text-left mb-2">
+                <Col lg={12} md={12}>
                     <div className="mb-2">
-                        <h6 className="text-info mb-1">
-                            — Featured Product
-                        </h6>
+                        <h4 className="text-info mb-1">
+                            Featured Product
+                        </h4>
+                        <hr />
                         {/* <h2 className="mb-0">Trending Products</h2> */}
                     </div>
                 </Col>
