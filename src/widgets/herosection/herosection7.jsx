@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Container, Row, Collapse } from 'reactstrap';
 import OwlCarousel from 'react-owl-carousel';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
@@ -17,8 +17,9 @@ const bannerapi = async () => {
 const herosection7 = () => {
     const [banner, SetBanner] = useState([]);
     const [catgory, setCatgory] = useState([]);
-
-
+    const [isOpen, setIsOpen] = useState(true);
+    const toggle = () => setIsOpen(!isOpen);
+    console.log(toggle);
     const options = {
         loop: true,
         dots: false,
@@ -63,8 +64,9 @@ const herosection7 = () => {
                 <Row>
                     <Col lg={3}>
                         <nav className="navbar navbar-expand-lg navbar-light categories d-block shadow-sm">
-                            <button className="navbar-toggler d-flex align-items-center text-uppercase" type="button" data-toggle="collapse" data-target="#categoriesDropdown" aria-controls="categoriesDropdown" aria-expanded="false" aria-label="Toggle navigation"> <i className="las la-stream" />Categories</button>
-                            <div className="collapse navbar-collapse" id="categoriesDropdown">
+                            <button className="navbar-toggler d-flex align-items-center text-uppercase" type="button" data-toggle="collapse" data-target="#categoriesDropdown" aria-controls="categoriesDropdown" aria-expanded="false" aria-label="Toggle navigation" onClick={toggle}> <i className="las la-stream" />Categories</button>
+                            <Collapse isOpen={isOpen} >
+
                                 <ul className="navbar-nav d-block w-100">
 
                                     {
@@ -74,7 +76,8 @@ const herosection7 = () => {
                                         )
                                     }
                                 </ul>
-                            </div>
+
+                            </Collapse>
                         </nav>
                     </Col>
                     <Col lg={9}>

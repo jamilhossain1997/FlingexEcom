@@ -54,56 +54,62 @@ const latestProduct = () => {
                             return (
                                 <React.Fragment key={productdata.id}>
                                     <Col xs={6} xl={2} lg={2} md={6} >
-                                        <Card
-                                            style={{
-                                                width: '11rem'
-                                            }}
-                                            className="mb-1"
-                                        >
+                                        <div className="card product-card">
+
                                             {
-                                                productdata.thumbnail ?
-                                                    <Link className="card-img-hover d-block" to={`/product-single/${productdata.slug}`}>
-                                                        <img className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata?.thumbnail}`} alt={`${productdata.slug}`} />
-                                                        <img className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata?.thumbnail}`} alt={`${productdata.slug}`} />
+                                                productdata.video_url ?
+                                                    <Link className="d-block" to={`/product-single/${productdata.slug}`}>
+                                                        {/* <img className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/${productdata.images[0]}`} alt="hello" /> */}
+                                                        <img className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} alt={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} />
+                                                        <div style={{ zIndex: `9999`, marginTop: `-138px`, marginLeft: `80px` }}>
+                                                            <BiCaretRightCircle size={70} />
+                                                        </div>
+
                                                     </Link>
-                                                    : <Skeleton count={3} />
+                                                    :
+                                                    <Link className="d-block" to={`/product-single/${productdata.slug}`}>
+                                                        {/* <img className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/${productdata.images[0]}`} alt="hello" /> */}
+                                                        <img className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} alt={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} />
+                                                    </Link>
+
+
                                             }
-
-                                            <Link className="ml-1 link-title" style={{ fontSize: 12 }} to={`/product-single/${productdata.slug}`} >
-                                                {productdata.name}
-                                            </Link>
-                                            <CardSubtitle
-                                                className="ml-1 text-info"
-                                                tag="h6"
-                                            >
-                                                {
-                                                    productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <><span style={{ fontSize: 13 }}>৳{Math.round((productdata?.unit_price / convert) - (productdata?.unit_price / convert * productdata?.discount) / 100)} </span></> : <><span style={{ fontSize: 13 }}>৳{(Math.round(productdata?.unit_price / convert) - ((productdata?.discount) / convert))}</span></> : <><span style={{ fontSize: 13 }}>৳{Math.round(productdata?.unit_price / convert)}</span></>
-                                                }
-
-                                            </CardSubtitle>
-                                            <CardSubtitle>
-
-                                                {
-                                                    productdata?.discount > 0 ? <del className="text-muted ml-1 h6" style={{ fontSize: 12 }}> ৳{Math.round(productdata?.unit_price / convert, 2)}</del>
-                                                        : null
-                                                }
-
-
-                                                {
-                                                    productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>-{Math.round((productdata.discount))}%</span></> : null : null
-                                                }
-
-                                                {
-                                                    productdata.discount > 0 ? productdata?.discount_type == 'flat' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>- ৳{Math.round((productdata.discount / convert))}</span></> : null : null
-                                                }
+                                            {/* <BiCaretRightCircle width={10} style={{ width: `20px` }} /> */}
 
 
 
-                                            </CardSubtitle>
+
+                                            <div className="product-title">
+                                                <Link to={`/product-single/${productdata.slug}`} className="link-title ml-1" style={{ fontSize: 12 }}>
+                                                    {productdata.name}
+                                                </Link>
+                                            </div>
+                                            <div className="mt-1">
+
+                                                <span className="product-price text-info">
+                                                    {
+                                                        productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <>৳{Math.round((productdata?.unit_price / convert) - (productdata?.unit_price / convert * productdata?.discount) / 100)}</> : <>৳{(Math.round(productdata?.unit_price / convert) - ((productdata?.discount) / convert))}</> : <>৳{Math.round(productdata?.unit_price / convert)}</>
+                                                    }
+
+                                                </span><br />
+                                                <span>
+                                                    {
+                                                        productdata?.discount > 0 ? <del className="text-muted ml-1 h6" style={{ fontSize: 12 }}> ৳{Math.round(productdata?.unit_price / convert, 2)}</del>
+                                                            : null
+                                                    }
 
 
+                                                    {
+                                                        productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>-{Math.round((productdata.discount))}%</span></> : null : null
+                                                    }
 
-                                        </Card>
+                                                    {
+                                                        productdata.discount > 0 ? productdata?.discount_type == 'flat' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>- ৳{Math.round((productdata.discount / convert))}</span></> : null : null
+                                                    }
+                                                </span>
+
+                                            </div>
+                                        </div>
 
                                     </Col>
                                 </React.Fragment>
