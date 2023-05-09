@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import navlink from '../../api/navlinks';
+// import navlink from '../../api/navlinks';
 import { Link } from 'react-router-dom';
 import {
     Col,
@@ -19,13 +19,15 @@ import {
     ModalHeader,
     ModalBody
 } from 'reactstrap'
-import Headertop from './siteheader/header-top';
+// import Headertop from './siteheader/header-top';
 import Headerlogo from './siteheader/header-logo';
 import imgUrl from '../../api/baseUrl';
 import apiClient from '../../api/http-common';
 import Userheader from './siteheader/userheader';
 import Brandheader from './siteheader/brandheader';
 import Categoryheader from './siteheader/categoryheader';
+import { toast, ToastContainer } from 'react-toastify';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 
@@ -35,6 +37,7 @@ class Header extends Component {
         this.state = {
             isOpen: false,
             cartview: false,
+            show: false,
             loader: true,
             logo: []
         }
@@ -62,12 +65,22 @@ class Header extends Component {
     GetCartItems() {
         return JSON.parse(localStorage.getItem("CartProduct"));
     }
-    RemoveItem = (Index) => {
-        var CartValue = JSON.parse(localStorage.getItem("CartProduct"));
-        CartValue = CartValue.slice(0, Index).concat(CartValue.slice(Index + 1, CartValue.length));
-        localStorage.removeItem("CartProduct");
-        localStorage.setItem("CartProduct", JSON.stringify(CartValue));
-    }
+    // RemoveItem = (Index) => {
+    //     var CartValue = JSON.parse(localStorage.getItem("CartProduct"));
+    //     CartValue = CartValue.slice(0, Index).concat(CartValue.slice(Index + 1, CartValue.length));
+    //     localStorage.removeItem("CartProduct");
+    //     localStorage.setItem("CartProduct", JSON.stringify(CartValue));
+    // }
+
+
+
+    removeElementLocalStorage = (ProductID) => {
+        let elements = JSON.parse(localStorage.getItem("CartProduct"));
+        elements = elements.filter(element => element.ProductID !== ProductID);
+        localStorage.setItem('CartProduct', JSON.stringify(elements));
+        toast.success("Item Remove");
+    };
+
     cartview() {
         this.setState(prevState => ({
             cartview: !prevState.cartview
@@ -104,54 +117,85 @@ class Header extends Component {
 
     render() {
         const { visible } = this.state;
-        if (this.state.loader == true) {
-            setTimeout(function () {
-                this.setState({ loader: false });
-            }.bind(this), 2000);
-        }
-
         const convert = 0.011904761904762;
         return (
             <>
-                {(this.state.loader == false) ?
+                {/* <ToastContainer autoClose={5000} /> */}
+                <HelmetProvider>
+                    <Helmet>
+                        <meta property="og:image" content="https://admin.sajerbela.com/storage/app/public/company/2023-03-31-6426dc9918aaa.png" />
+                        <meta property="og:url" content="https://sajerbela.com/" />
+                        <meta
+                            property="og:description"
+                            content="<p>বিসমিল্লাহির রাহমানির রাহিম<br />
+ব্যত"
+                        />
+
+                        <meta property="twitter:card" content="https://admin.sajerbela.com/storage/app/public/company/2023-03-31-6426dc9918aaa.png" />
+                        <meta property="twitter:title" content="Welcome To Sajer Bela Home" />
+                        <meta property="twitter:url" content="https://sajerbela.com/" />
+                        <meta
+                            property="twitter:description"
+                            content="<p>বিসমিল্লাহির রাহমানির রাহিম<br />
+ব্যত"
+                        />
+                        <meta name="facebook-domain-verification" content="ys1347xan857sapi97hdpyloyb1ppr" />
+                    </Helmet>
                     <>
-                        <header className="site-header mb-3">
-                            <Headertop />
+                        <header className="site-header">
+                            {/* <Headertop /> */}
                             <Headerlogo />
                             <div id="header-wrap" className={`${(visible) ? "shadow-sm fixed-header " : "shadow-sm"}`} >
-                                <Container>
+                                <Container fluid>
                                     <Row>
                                         <Col>
-                                            <Navbar className="navbar-expand-lg navbar-light position-static">
+                                            <Navbar className="navbar-expand-lg navbar-light position-static navHead" >
                                                 <Link className="navbar-brand logo d-lg-none" to="/">
-                                                    <img className="img-fluid" src={`${imgUrl}storage/app/public/company/${this.state.logo.value}`} alt="hello" />
+                                                    <img className="img-fluid" src={`${imgUrl}storage/app/public/company/${this.state.logo.value}`} alt="hello" style={{ height: `41px` }} />
                                                 </Link>
                                                 <NavbarToggler onClick={this.toggle} />
                                                 <Collapse isOpen={this.state.isOpen} className="navbar-collapse" navbar>
                                                     <Nav className="navbar-nav" navbar>
-                                                        <NavItem>
-                                                            <NavLink tag={Link} to="/" className='text-info'>Home</NavLink>
-                                                        </NavItem>
+                                                        {/* <NavItem onClick={this.toggle}>
+                                                        <NavLink tag={Link} to="/">Home</NavLink>
+                                                    </NavItem> */}
+
                                                         <Categoryheader />
-                                                        <Brandheader />
+                                                        <Brandheader toggle={this.toggle} />
+                                                        {/* <NavItem onClick={this.toggle}>
+                                                            <NavLink tag={Link} to="/campaign" style={{ textTransform: `uppercase` }}>Campaign</NavLink>
+                                                        </NavItem> */}
 
-                                                        <NavItem>
-                                                            <NavLink className='text-info' href="http://admin.sajerbela.com/seller/auth/login" target="_blank">Seller</NavLink>
+                                                        <NavItem onClick={this.toggle}>
+                                                            <NavLink tag={Link} to="/discontproduct" style={{ textTransform: `uppercase` }}>Discount Product</NavLink>
                                                         </NavItem>
-
+                                                        {/* <NavItem>
+                                                            <NavLink tag={Link} to="/catgory/530" style={{ textTransform: `uppercase` }}>Video Shopping</NavLink>
+                                                        </NavItem> */}
                                                         <NavItem>
-                                                            <NavLink className='text-info' tag={Link} to="/discontproduct">Discount Product</NavLink>
+                                                            <UncontrolledDropdown nav inNavbar >
+                                                                <DropdownToggle nav caret className="dropdown-item" style={{ textTransform: `uppercase` }}>
+                                                                    Seller
+                                                                </DropdownToggle>
+                                                                <DropdownMenu className="childsubmenu" style={{ overflowY: 'scroll', maxHeight: "200px" }}>
+                                                                    <DropdownItem href="http://admin.sajerbela.com/shop/apply" target="_blank">Become a seller
+                                                                    </DropdownItem>
+                                                                    <DropdownItem href="http://admin.sajerbela.com/seller/auth/login" target="_blank">Seller Login
+                                                                    </DropdownItem>
+                                                                </DropdownMenu>
+                                                            </UncontrolledDropdown>
+                                                            {/* <NavLink href="http://admin.sajerbela.com/seller/auth/login" target="_blank">Seller</NavLink> */}
                                                         </NavItem>
                                                     </Nav>
                                                 </Collapse>
                                                 <div className="right-nav align-items-center d-flex justify-content-end">
-                                                    {
+                                                    {/* {
                                                         localStorage.getItem('token') ?
                                                             <Userheader /> :
-                                                            <Link to="/sign-in" className="mr-1 mr-sm-3"><i className="las la-user-alt" /></Link>
-                                                    }
+                                                            <Link to="/otpLogin" className="mr-1 mr-sm-3"><i className="las la-user-alt" /></Link>
+                                                    } */}
 
-                                                    <Link className="mr-3 d-none d-sm-inline" to="/wishlist"><i className="lar la-heart" /></Link>
+                                                    <Link to="/otpLogin" className="mr-1 mr-sm-3"><i className="las la-user-alt" /></Link>
                                                     <div>
                                                         <Link className="d-flex align-items-center" to="#" id="header-cart-btn" onClick={this.cartview} >
                                                             {(this.GetCartItems() != null && this.GetCartItems().length > 0) ?
@@ -159,8 +203,8 @@ class Header extends Component {
                                                                     <span className="bg-white px-2 py-1 shadow-sm rounded" data-cart-items={this.GetCartItems().length}>
                                                                         <i className="las la-shopping-cart" />
                                                                     </span>
-                                                                    <div className="ml-4 d-none d-md-block"> <small className="d-block text-muted">My Cart</small>
-                                                                        <span className="text-dark">{this.GetCartItems().length} Items - ৳{Math.round(this.GetCartItems().reduce((fr, CartItem) => fr + (CartItem.Qty * CartItem.Rate), 0).toLocaleString(navigator.language, { minimumFractionDigits: 0 }) / convert, 2)}</span>
+                                                                    <div className="ml-3 d-none d-md-block"> <small className="d-block text-muted">My Cart</small>
+                                                                        <span className="text-dark">৳{Math.round(this.GetCartItems().reduce((fr, CartItem) => fr + (CartItem.Qty * CartItem.Rate), 0).toLocaleString(navigator.language, { minimumFractionDigits: 0 }) / convert, 2)}</span>
                                                                     </div>
                                                                 </>
                                                                 :
@@ -184,11 +228,11 @@ class Header extends Component {
                                     <>
                                         {this.GetCartItems().map((CartItem, index) => (
                                             <>
-                                                <div>
+                                                <div key={index}>
                                                     <div className="row align-items-center">
                                                         <div className="col-5 d-flex align-items-center">
                                                             <div className="mr-4">
-                                                                <Link type="submit" className="btn btn-primary btn-sm" onClick={() => this.RemoveItem(index)}><i className="las la-times" />
+                                                                <Link type="submit" className="btn btn-primary btn-sm" onClick={() => this.removeElementLocalStorage(CartItem.ProductID)}><i className="las la-times" />
                                                                 </Link>
                                                             </div>
                                                             {/* Image */}
@@ -200,7 +244,10 @@ class Header extends Component {
                                                         <div className="col-7">
                                                             {/* Title */}
                                                             <h6><a className="link-title" href="">{CartItem.ProductName}</a></h6>
-                                                            <div className="product-meta"><span className="mr-2 text-primary">{Math.round((CartItem.Rate * CartItem.Qty).toLocaleString(navigator.language, { minimumFractionDigits: 0 }) / convert, 2)}</span><span className="text-muted">x {CartItem.Qty}</span>
+                                                            {/* {Math.round(CartItem.Discount / convert)} */}
+                                                            <div className="product-meta"><span className="mr-2 text-primary"><strong style={{ fontSize: `13px` }}>Discount-৳{Math.round((CartItem.Discount * CartItem.Qty).toLocaleString(navigator.language, { minimumFractionDigits: 0 }) / convert, 2)}</strong></span>
+                                                            </div>
+                                                            <div className="product-meta"><span className="mr-2 text-primary">৳{Math.round((CartItem.Rate * CartItem.Qty).toLocaleString(navigator.language, { minimumFractionDigits: 0 }) / convert, 2)}</span><span className="text-muted">x {CartItem.Qty}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -210,30 +257,27 @@ class Header extends Component {
                                         ))}
 
 
-                                        <div className="d-flex justify-content-between align-items-center mb-8"> <span className="text-muted">Subtotal:</span>  <span className="text-dark">${this.GetCartItems().reduce((fr, CartItem) => fr + (CartItem.Qty * CartItem.Rate), 0).toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</span>
+                                        <div className="d-flex justify-content-between align-items-center mb-8"> <span className="text-muted">Subtotal:</span>  <span className="text-dark">৳{Math.round(this.GetCartItems().reduce((fr, CartItem) => fr + (CartItem.Qty * CartItem.Rate), 0).toLocaleString(navigator.language, { minimumFractionDigits: 0 }) / convert, 2)}</span>
                                         </div >
+                                        <Link to="/OneStepCheck">
+                                            <button className="btn btn-primary btn-lg btn-block btn-animated mr-2" onClick={this.cartview}>
+                                                <i className="las la-shopping-cart mr-1" />Checkout
+                                            </button>
+                                        </Link>
 
-                                        <Link to="/cart" toggle={this.cartview} className="btn btn-primary btn-animated mr-2"><i className="las la-shopping-cart mr-1" />View Cart</Link>
-
-                                        <Link to="/checkout" className="btn btn-dark"><i className="las la-money-check mr-1" />Continue To Checkout</Link>
+                                        {/* <Link toggle={this.cartview} to="/checkout" className="btn btn-dark"><i className="las la-money-check mr-1" />Continue To Checkout</Link> */}
                                     </>
                                     :
                                     <div>
-                                        <div className="row align-items-center">
-                                            <h3 className="mb-4">Your cart is Currently Empty.</h3>
-                                        </div>
+                                        {/* <div className="row align-items-center">
+                                        </div> */}
+                                        <h5 className="mb-4 text-center">Your cart is Currently Empty.</h5>
                                     </div>
                                 }
                             </ModalBody>
                         </Modal>
                     </>
-                    :
-                    <div id="ht-preloader">
-                        <div className="loader clear-loader">
-                            <img className="img-fluid" src={require(`../../assets/images/loader.gif`).default} alt="" />
-                        </div>
-                    </div>
-                }
+                </HelmetProvider>
             </>
         );
     }

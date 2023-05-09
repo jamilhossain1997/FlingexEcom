@@ -6,7 +6,37 @@
   height: 40vmin;
   pointer-events: none;
 }
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
+}
 
+#custCarousel .carousel-indicators {
+  position: static;
+  margin-top:20px;
+  }
+  
+  #custCarousel .carousel-indicators > li {
+  width:100px;
+  }
+  
+  #custCarousel .carousel-indicators li img {
+  display: block;
+  opacity: 0.5;
+  }
+  
+  #custCarousel .carousel-indicators li.active img {
+  opacity: 1;
+  }
+  
+  #custCarousel .carousel-indicators li:hover img {
+  opacity: 0.75;
+  }
+
+.carousel-item img{
+
+width:80%;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -36,3 +66,194 @@
     transform: rotate(360deg);
   }
 }
+
+.card-img-top{
+  border-radius: 10px;
+}
+
+.modal .modal-content {
+  /* width: 632px!important; */
+  border-radius:5px!important;
+
+}
+
+.modal-header .close{
+  margin: none !important;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: rgba(0,0,0)!important;
+}
+
+.navbar .dropdown-menu a {
+  color: rgba(0,0,0)!important;
+}
+
+.navHead{
+  margin-left: 53px!important;
+}
+
+.accordion__item {
+  margin-bottom: 10px!important;
+}
+
+.invoiceHeader{
+    font: bold 100% sans-serif; 
+    letter-spacing: 0.5em; 
+    text-align: center; 
+    text-transform: uppercase;
+    /* background: #000; */
+    border-radius: 0.25em;
+    /* width: 200px; */
+    /* color: #FFF; */
+    margin: 0 0 1em;
+    padding: 0.5em 0;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 767px)  {
+  .FreeShipping{
+    display: none;
+  }
+  .navHead{
+    margin-left: 0px!important;
+  }
+  }
+
+  /* @media only screen and (min-width: 200px) and (max-width: 991.98px)
+  {
+    .navbar-toggler {
+      margin-right: -1px!important;
+    }
+  } */
+  
+  /* input {
+    border: 1px solid #999;
+    padding: 0.5rem;
+    width: 300px;
+  } */
+  
+  .no-suggestions {
+    color: #999;
+    padding: 0.5rem;
+  }
+  
+  .suggestions {
+    border: 1px solid #999;
+    border-top-width: 0;
+    list-style: none;
+    margin-top: 0;
+    max-height: 143px;
+    overflow-y: auto;
+    padding-left: 0;
+    width: calc(300px + 1rem);
+  }
+  
+  .suggestions li {
+    padding: 0.5rem;
+  }
+  
+  .suggestion-active,
+  .suggestions li:hover {
+    background-color: #008f68;
+    color: #fae042;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  
+  .suggestions li:not(:last-of-type) {
+    border-bottom: 1px solid #999;
+  }
+
+  /* .coming-soon{
+    margin-left:23px;
+  } */
+
+  /* .hover-dropdown-toggle:hover + .dropdown-menu  {
+    display: block;
+  } */
+
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  /* .dropdown-menu {
+    display: block;
+  } */
+
+  .dropDownScroll{
+    overflow-y: auto;
+    width:400px ;
+    max-height: 500px;
+  }
+  .ColorAlien{
+    margin-left: -26px !important;
+  }
+
+  .signalImage{
+    display: block;
+  }
+  .mobileImage{
+    display:none;
+  }
+ @media only screen and (min-width: 200px) and (max-width: 991.98px){
+  .ColorAlien{
+    margin-left: -1px !important;
+  }
+  .dropDownScroll{
+    overflow-y: auto;
+    width:400px ;
+    max-height: 500px;
+  }
+  .image-magnify {
+    width: 500px!important;
+  }
+  .signalImage{
+    display:none;
+  }
+  .mobileImage{
+    display:block;
+  }
+}
+
+.navbar .dropdown-menu .dropdown-item {
+  padding-top:0px!important;
+}
+
+
+/* model Single pages */
+
+.modal {
+  font-size: 12px;
+}
+.modal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+.modal > .content {
+  width: 100%;
+  padding: 10px 5px;
+}
+.modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
+}
+
+/* .iiz__img {
+  height: 335px!important;
+} */

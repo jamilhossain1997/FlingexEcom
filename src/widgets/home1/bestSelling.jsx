@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, Modal, ModalHeader, ModalBody, Row, Col, Container, CardBody, CardText, CardSubtitle, CardTitle } from 'reactstrap';
-import { toast, ToastContainer } from "react-toastify";
-import OwlCarousel from "react-owl-carousel";
-import { Link } from "react-router-dom";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useQuery } from "react-query";
-import apiClient from "../../api/http-common";
-import imgUrl from "../../api/baseUrl";
+import { toast, ToastContainer } from 'react-toastify';
+// import OwlCarousel from 'react-owl-carousel';
+// import 'owl.carousel/dist/assets/owl.carousel.css';
+// import 'owl.carousel/dist/assets/owl.theme.default.css';
+import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useQuery } from 'react-query';
+import apiClient from '../../api/http-common';
+import imgUrl from '../../api/baseUrl';
 import { RiShoppingBag3Line } from "react-icons/ri";
 
-const latestapi = async () => {
-    const result = await apiClient.get(`/v1/products/latest`);
+const bestSell = async () => {
+    const result = await apiClient.get(`v1/products/best-sellings`);
     return result.data.products;
 };
-const latestProduct = () => {
+const bestSelling = () => {
+    const { isLoading, error, data } = useQuery("bestSell", bestSell);
     const [visible, setVisible] = useState(12);
     const [isCompleted, setIsCompleted] = useState(false);
-    const { isLoading, error, data } = useQuery("latestapi1", latestapi);
-
+    const convert = 0.011904761904762;
     // LoadMore
     const loadMore = () => {
         setVisible((prev) => prev + 12);
@@ -29,20 +32,15 @@ const latestProduct = () => {
         }
     };
 
-
-
-    const convert = 0.011904761904762;
     return (
         <>
-
             <Row className="justify-content-center text-left mb-2">
                 <Col lg={12} md={12}>
                     <div className="mb-2">
                         <h4 className="text-info mb-1">
-                            Trending Products
+                            Best-Selling Product
                         </h4>
                         <hr />
-                        {/* <h2 className="mb-0">Trending Products</h2> */}
                     </div>
                 </Col>
             </Row>
@@ -109,9 +107,8 @@ const latestProduct = () => {
                     </div>
                 </Container>
             </div>
-
         </>
     );
-};
+}
 
-export default latestProduct;
+export default bestSelling
