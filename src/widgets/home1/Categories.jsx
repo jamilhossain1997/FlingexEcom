@@ -41,13 +41,11 @@ const Categories = () => {
     };
 
     useEffect(() => {
-
         apiClient.get(`/v1/categories`)
             .then(res => {
                 setCategory(res.data)
                 setLoading(false)
             })
-
     }, []);
 
     if (loading) {
@@ -63,7 +61,6 @@ const Categories = () => {
                                         <Skeleton variant="rectangular" width={300} count={3} />
                                     </Col>
                                 </>
-
                             )
                         }
                     </Row>
@@ -80,14 +77,10 @@ const Categories = () => {
                     <div className="mb-4">
                         <h4 className="text-info mb-1">Categories gallery</h4>
                         <hr />
-                        {/* <h2 className="mb-0">{cat.name}</h2> */}
                     </div>
                 </Col>
             </Row>
             <Row>
-
-
-
                 {category?.map((productdata) => (
                     <React.Fragment key={productdata.id}>
                         <Col xs={6} xl={2} lg={2} md={6} >
@@ -99,14 +92,12 @@ const Categories = () => {
                                             <h5 className="card-title text-center" style={{ fontSize: `14px` }}> {productdata.name}</h5>
                                         </div>
                                     </Link>
-
                                 </div>
                             </div>
                         </Col>
                     </React.Fragment>
                 )
                 )}
-
             </Row>
         </Container>
     )

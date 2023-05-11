@@ -191,7 +191,7 @@ class Newcollection extends React.Component {
                                                 <h6 className="mb-0 text-info">{cat.name}</h6>
                                             </div>
                                             <div className="float-right">
-                                                <button type="button" class="btn btn-info">View All</button>
+                                                <a href={`/category/${cat.slug}`} type="button" class="btn btn-info">View All</a>
                                             </div>
                                             <br />
                                             <br />
