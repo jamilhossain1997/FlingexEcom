@@ -14,12 +14,15 @@ const singup = () => {
   const onSubmit = data => {
     apiClient.post(`/v1/auth/register`, data)
       .then(res => {
-        console.log(res);
         localStorage.setItem('token', res.data.token);
-        history.push('/');
+        // history.push('/');
+        toast.success(res.data.messages);
+        history.goBack();
+
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
+        toast.warning(err.data.messages);
       })
   }
 
@@ -45,7 +48,7 @@ const singup = () => {
                   <h6 className="text-primary mb-1">
                     — Sign Up
                   </h6>
-                  <h2>Simple And Easy To Sign Up</h2>
+                  {/* <h2>Sign Up</h2> */}
                   {/* <p className="lead">We use the latest technologies it voluptatem accusantium doloremque laudantium, totam rem aperiam.</p> */}
                 </div>
               </Col>
@@ -97,17 +100,6 @@ const singup = () => {
                         </div>
                       </Col>
                     </Row>
-
-                    {/* <Row className="mt-5">
-                      <Col md={12}>
-                        <div className="remember-checkbox clearfix mb-5">
-                          <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                            <label className="custom-control-label" htmlFor="customCheck1">I agree to the term of use and privacy policy</label>
-                          </div>
-                        </div>
-                      </Col>
-                    </Row> */}
                     <Row>
                       <Col md={12}>
                         <input type="submit" className="btn btn-primary" />

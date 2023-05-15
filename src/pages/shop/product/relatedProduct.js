@@ -26,7 +26,7 @@ const relatedProduct = (props) => {
     useEffect(() => {
         apiClient.get(`/v1/products/related-products/${sulg}`)
             .then(function (response) {
-                console.log(response.data)
+                // console.log(response.data)
                 setRelatedproducts(response.data)
             });
     }, [])
@@ -55,19 +55,15 @@ const relatedProduct = (props) => {
         setModelview(!modelview);
     }
 
-    function toggle(tab) {
-        if (activeTab !== tab) {
-            setActiveTap(tab)
-        }
-    }
+    // function toggle(tab) {
+    //     if (activeTab !== tab) {
+    //         setActiveTap(tab)
+    //     }
+    // }
 
     function onClickQuickView(product) {
         setModelview(true);
         setViewproduct(product);
-        //setState({
-        //     modelview: true,
-        //     viewproduct: product
-        // })
     }
 
     // WishlistItems
@@ -148,13 +144,11 @@ const relatedProduct = (props) => {
         <>
 
             <ToastContainer autoClose={5000} />
-            {relatedproducts ?
+            {relatedproducts.length > 0 ?
                 <Row>
                     <Col>
                         {/* Tab panes */}
                         <div className="tab-content p-0" id="nav-tabContent">
-
-
                             <OwlCarousel
                                 className="owl-carousel no-pb owl-2"
                                 {...options}
@@ -166,65 +160,36 @@ const relatedProduct = (props) => {
 
                                         <div className="item" key={index}>
                                             <div className="card product-card">
-                                                {!WishlistItems(productdata.id) ?
-                                                    <Link to="#" onClick={() => Productaddwishlist(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)} className="btn-wishlist btn-sm" id="addtowish"><i className="lar la-heart" /></Link>
-                                                    :
-                                                    <Link to="/cart" className="btn-wishlist btn-sm" id="viewwishlist"><i className="las la-heart" /></Link>
-                                                }
-
-                                                {/* <img className="card-img-top card-img-back" src={require(`http://127.0.0.1:8000/storage/product/thumbnail/${productdata.images}`).default} alt="..." /> */}
-                                                {/* <img className="card-img-top card-img-front" src={require(`http://127.0.0.1:8000/storage/product/thumbnail/${productdata.thumbnail}`).default} alt="..." /> */}
-                                                <Link onClick={() => setScrollToTop(true)} className="card-img-hover d-block" to={`/product-single/${productdata.slug}`}>
-                                                    <LazyLoadImage className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/${productdata.images[0]}`} alt="hello" />
-                                                    <LazyLoadImage className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} alt="hello" />
+                                                <Link className="d-block" to={`/product-single/${productdata.slug}`}>
+                                                    {/* <img className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/${productdata.images[0]}`} alt="hello" /> */}
+                                                    <img className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} alt={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} />
                                                 </Link>
-                                                <div className="card-info">
-                                                    <div className="card-body">
-                                                        <div className="product-title"><Link to="/product-single" className="link-title">{productdata.name}</Link>
-                                                        </div>
-                                                        <div className="mt-1">
-                                                            <span className="product-price">
-
-                                                                {
-                                                                    productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <> Discount:{Math.round((productdata.discount))}%</> : null : null
-                                                                }
-
-                                                                {
-                                                                    productdata.discount > 0 ? productdata?.discount_type == 'flat' ? <> Discount:৳{Math.round((productdata.discount / convert))}off</> : null : null
-                                                                }
-                                                            </span><br />
-                                                            <span className="product-price">
-                                                                {
-                                                                    productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <>৳{(Math.round(productdata?.unit_price / convert, 2)) - (Math.round(((productdata?.unit_price / convert * productdata?.discount)), 2) / 100)}</> : <>৳{(Math.round(productdata?.unit_price / convert, 2)) - (Math.round((productdata?.discount) / convert, 2))}</> : <>৳{Math.round(productdata?.unit_price / convert, 2)}</>
-                                                                }
-                                                                <span>
-                                                                    {
-                                                                        productdata?.discount > 0 ? <del className="text-muted h6"> ৳{Math.round(productdata?.unit_price / convert, 2)}</del>
-                                                                            : null
-                                                                    }
-                                                                </span>
-                                                                {/* <del className="text-muted">{productdata.unit_price}</del>{productdata.unit_price} */}
-                                                            </span>
-                                                            <div className="star-rating"><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="card-footer bg-transparent border-0">
-                                                        <div className="product-link d-flex align-items-center justify-content-center">
-                                                            {!WishlistItems(productdata.id) ?
-                                                                <Link to="#" onClick={() => Productaddwishlist(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)} className="btn btn-compare" id="addtowish1"><i className="lar la-heart mr-1" ></i></Link>
-                                                                :
-                                                                <Link to="/cart" className="btn btn-compare" id="viewwishlist1"><i className="las la-heart mr-1" ></i></Link>
-                                                            }
-                                                            {!CartItems(productdata.id) ?
-                                                                <Link to="#" onClick={() => Productaddcart(productdata.id, productdata.name, productdata.thumbnail, productdata.min_qty, productdata.unit_price, productdata.current_stock)} className="btn-cart btn btn-primary btn-animated mx-3" rel="nofollow" id="addtocard1"><i className="las la-shopping-cart mr-1" /></Link>
-                                                                :
-                                                                <Link to="/cart" className="btn-cart btn btn-primary btn-animated mx-3" rel="nofollow" id="viewcart1"><i className="las la-cart-plus mr-1" /></Link>
-
-                                                            }
-                                                            <Link to="#" onClick={() => onClickQuickView(productdata)} className="btn btn-view" id="quickview1"><i className="las la-eye" /></Link>
-                                                        </div>
-                                                    </div>
+                                                {/* <BiCaretRightCircle width={10} style={{ width: `20px` }} /> */}
+                                                <div className="product-title">
+                                                    <Link to={`/product-single/${productdata.slug}`} className="link-title " style={{ fontSize: 13 }}>
+                                                        <strong className="d-flex justify-content ml-1">
+                                                            {productdata.name}
+                                                        </strong>
+                                                    </Link>
+                                                </div>
+                                                <div className="mt-1">
+                                                    <span className="product-price text-info ml-1">
+                                                        {
+                                                            productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <>৳{Math.round((productdata?.unit_price / convert) - (productdata?.unit_price / convert * productdata?.discount) / 100)}</> : <>৳{(Math.round(productdata?.unit_price / convert) - ((productdata?.discount) / convert))}</> : <>৳{Math.round(productdata?.unit_price / convert)}</>
+                                                        }
+                                                    </span><br />
+                                                    <span className="product-price">
+                                                        {
+                                                            productdata?.discount > 0 ? <del className="text-muted ml-1 h6" style={{ fontSize: 12 }}> ৳{Math.round(productdata?.unit_price / convert, 2)}</del>
+                                                                : null
+                                                        }
+                                                        {
+                                                            productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>-{Math.round((productdata.discount))}%</span></> : null : null
+                                                        }
+                                                        {
+                                                            productdata.discount > 0 ? productdata?.discount_type == 'flat' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>- ৳{Math.round((productdata.discount / convert))}</span></> : null : null
+                                                        }
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -232,8 +197,6 @@ const relatedProduct = (props) => {
                                 }
                                 )}
                             </OwlCarousel>
-
-
                         </div>
                     </Col>
                 </Row>

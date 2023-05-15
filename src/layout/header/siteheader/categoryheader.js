@@ -69,7 +69,6 @@ const categoryheader = () => {
                             ))}
                         </Row>
                     </Container>
-
                 </ModalBody>
             </Modal>
         </>

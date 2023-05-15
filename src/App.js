@@ -9,11 +9,6 @@ import './App.css';
 import './vendor.js';
 
 import index from './pages/home';
-import index2 from './pages/home/index2';
-import index3 from './pages/home/index3';
-import index4 from './pages/home/index4';
-import index5 from './pages/home/index5';
-import index6 from './pages/home/index6';
 // import blogcart from './pages/blog/blogcart';
 // import bloglist1 from './pages/blog/bloglist1';
 // import bloglist2 from './pages/blog/bloglist2';
@@ -49,7 +44,13 @@ import Scrolltop from './layout/back-to-top';
 import productsingle from './pages/shop/product/productsingle';
 import Checkoutdetails from './pages/shop/checkoutdetails';
 import OrderView from './pages/account/orderView';
-
+import SearchView from './pages/shop/layout/grid/SearchView';
+import OtpLogin from './pages/account/OTP-LOGIN/otpLogin';
+import Otpset from './pages/account/OTP-LOGIN/otpset';
+import userProfile from './pages/account/User/userProfile';
+// import Invoice from './pages/account/User/invoice';
+// import OneStepCheck from './pages/shop/product/oneStepCheck';
+import PriceSearch from './pages/shop/layout/grid/PriceSearch';
 
 class App extends React.Component {
 
@@ -79,11 +80,13 @@ class App extends React.Component {
               <Header />
               <Switch>
                 <Route exact path="/" component={index} />
-                <Route exact path="/index2" component={index2} />
-                <Route exact path="/index3" component={index3} />
-                <Route exact path="/index4" component={index4} />
-                <Route exact path="/index5" component={index5} />
-                <Route exact path="/index6" component={index6} />
+                <Route path="/Search" component={SearchView} />
+                <Route path="/otpLogin" component={OtpLogin} />
+                <Route path="/Otpset" component={Otpset} />
+                <Route path="/userProfile" component={userProfile} />
+                {/* <Route path="/invoice/:id" component={Invoice} /> */}
+                {/* <Route path="/OneStepCheck" component={OneStepCheck} /> */}
+                <Route path="/PriceSearch" component={PriceSearch} />
 
 
                 {/* Blog Pages */}
@@ -110,7 +113,7 @@ class App extends React.Component {
                 {/* Shop Pages */}
                 <Route path="/grid-left-sidebar/:id" component={leftsidebar} />
                 {/* <Route path="/grid-right-sidebar" component={rightsidebar} /> */}
-                <Route path="/catgory/:id" component={nosidebar} />
+                <Route path="/category/:id" component={nosidebar} />
                 <Route path="/discontproduct" component={fullsidebar} />
                 {/* <Route path="/list-left-sidebar" component={listleftsidebar} />
                 <Route path="/list-right-sidebar" component={listrightsidebar} />

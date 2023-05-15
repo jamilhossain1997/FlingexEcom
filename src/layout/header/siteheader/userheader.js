@@ -20,22 +20,27 @@ const userheader = () => {
     const [userData, setUserData] = useState([]);
     const [toekn, setToken] = useState(JSON.stringify(localStorage.getItem('token')));
     const history = useHistory();
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //       history.push('/cart');
-    //       // window.location.reload(1)
-    //       // window.location.reload()
-    //     } else {
-    //       history.push('/sign-in');
-    //     }
-    //   }, [])
     const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const expirationTime = localStorage.getItem('expirationTime');
+            if (expirationTime && new Date().getTime() > expirationTime) {
+                // user is logged out
+                localStorage.removeItem('expirationTime');
+                localStorage.removeItem('token');
+                history.push('/otpLogin')
+            }
+        }, 60 * 1000); // check every minute
+        return () => clearInterval(intervalId);
+    }, []);
+
     useEffect(() => {
         let timer = setTimeout(() => {
             delay(10000);
             apiClient.get(`/v1/customer/info`)
                 .then(res => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     setUserData(res.data)
                 })
                 .catch(err => {
@@ -47,43 +52,33 @@ const userheader = () => {
         };
     }, []);
 
-
-    // useEffect(() => {
-    //     if (!localStorage.getItem('token')) {
-    //         window.Location.reload();
-    //     } else {
-    //         apiClient.get(`/v1/customer/info`)
-    //             .then(res => {
-    //                 // console.log(res.data);
-    //                 setUserData(res.data)
-    //             })
-    //             .catch(err => {
-    //                 console.log(err);
-    //             })
-    //     }
-
-
-    // }, []);
-
     const handleLogout = (e) => {
         e.preventDefault();
 
         localStorage.removeItem('token');
-        history.push('/sign-in')
+        history.push('/otpLogin')
     }
     const toggle = () => setDropdownOpen(!dropdownOpen);
 
     return (
-        <Nav className="navbar-nav" tabs>
-            <UncontrolledDropdown nav inNavbar >
-                <DropdownToggle nav caret className="dropdown-item" >
-                    {userData?.f_name}
-                </DropdownToggle>
-                <DropdownMenu className="childsubmenu">
-                    <DropdownItem tag={Link} to={`/orderVioew`}>Order</DropdownItem>
-                    <DropdownItem onClick={handleLogout} tag={Link} to={`/sign-in`}>Logout</DropdownItem>
-                </DropdownMenu>
-            </UncontrolledDropdown>
+        <Nav >
+            <NavItem >
+                <UncontrolledDropdown nav inNavbar >
+                    <DropdownToggle nav caret className="dropdown-item" >
+                        {
+                            userData?.l_name != null ?
+                                <span >{userData?.l_name}</span> :
+                                <><span >Hello</span></>
+                        }
+
+                    </DropdownToggle>
+                    <DropdownMenu className="childsubmenu" style={{ overflowY: 'scroll', maxHeight: "200px" }}>
+                        <DropdownItem style={{ padding: `15px` }} tag={Link} to={`/orderVioew`}>Order</DropdownItem>
+                        <DropdownItem style={{ padding: `15px` }} tag={Link} to={`/userProfile`}>My Profile</DropdownItem>
+                        <DropdownItem style={{ padding: `15px` }} onClick={handleLogout} tag={Link} to={`/sign-in`}>Logout</DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledDropdown>
+            </NavItem>
         </Nav>
 
     );

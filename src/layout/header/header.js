@@ -65,12 +65,12 @@ class Header extends Component {
     GetCartItems() {
         return JSON.parse(localStorage.getItem("CartProduct"));
     }
-    // RemoveItem = (Index) => {
-    //     var CartValue = JSON.parse(localStorage.getItem("CartProduct"));
-    //     CartValue = CartValue.slice(0, Index).concat(CartValue.slice(Index + 1, CartValue.length));
-    //     localStorage.removeItem("CartProduct");
-    //     localStorage.setItem("CartProduct", JSON.stringify(CartValue));
-    // }
+    RemoveItem = (Index) => {
+        var CartValue = JSON.parse(localStorage.getItem("CartProduct"));
+        CartValue = CartValue.slice(0, Index).concat(CartValue.slice(Index + 1, CartValue.length));
+        localStorage.removeItem("CartProduct");
+        localStorage.setItem("CartProduct", JSON.stringify(CartValue));
+    }
 
 
 
@@ -125,11 +125,7 @@ class Header extends Component {
                     <Helmet>
                         <meta property="og:image" content="https://admin.sajerbela.com/storage/app/public/company/2023-03-31-6426dc9918aaa.png" />
                         <meta property="og:url" content="https://sajerbela.com/" />
-                        <meta
-                            property="og:description"
-                            content="<p>বিসমিল্লাহির রাহমানির রাহিম<br />
-ব্যত"
-                        />
+
 
                         <meta property="twitter:card" content="https://admin.sajerbela.com/storage/app/public/company/2023-03-31-6426dc9918aaa.png" />
                         <meta property="twitter:title" content="Welcome To Sajer Bela Home" />
@@ -232,7 +228,7 @@ class Header extends Component {
                                                     <div className="row align-items-center">
                                                         <div className="col-5 d-flex align-items-center">
                                                             <div className="mr-4">
-                                                                <Link type="submit" className="btn btn-primary btn-sm" onClick={() => this.removeElementLocalStorage(CartItem.ProductID)}><i className="las la-times" />
+                                                                <Link type="submit" className="btn btn-info btn-sm" onClick={() => this.removeElementLocalStorage(CartItem.ProductID)}><i className="las la-times" />
                                                                 </Link>
                                                             </div>
                                                             {/* Image */}
