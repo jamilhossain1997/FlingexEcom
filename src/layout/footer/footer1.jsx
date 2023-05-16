@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import { useEffect } from 'react';
 import apiClient from '../../api/http-common';
+import imgUrl from '../../api/baseUrl';
 
 const footer1 = () => {
     const [copyRight, setCopyRight] = useState([]);
@@ -80,7 +81,8 @@ const footer1 = () => {
             <Container>
                 <Row>
                     <div className="col-12 col-lg-3"> <Link className="footer-logo text-white h2 mb-0" to="/">
-                        Sajer<span className="text-primary">Bela</span>
+                        {/* Sajer<span className="text-primary">Bela</span> */}
+                        <img className="img-fluid" src={`${imgUrl}storage/app/public/company/${footerlogo?.value}`} alt="hello" style={{ height: `80px` }} />
                     </Link>
 
                         {/* <p className="my-3 text-muted" ontentEditable='true' dangerouslySetInnerHTML={{ __html: about.value }}></p> */}
@@ -121,18 +123,13 @@ const footer1 = () => {
                                 <h5 className="mb-4 text-white"> Top Categories</h5>
 
                                 {
-
                                     categories.map((cat, i) => (
                                         <ul className="navbar-nav list-unstyled mb-0" key={i}>
-                                            <li className="mb-3 nav-item"><Link className="nav-link" to={`/catgory/${cat.id}`}>{cat.name}</Link></li>
+                                            <li className="mb-3 nav-item"><Link className="nav-link" to={`/category/${cat.slug}`}>{cat.name}</Link></li>
 
                                         </ul>
                                     ))
-
                                 }
-
-
-
                             </div>
                             <div className="col-12 col-sm-4 mt-6 mt-sm-0 navbar-dark">
                                 <h5 className="mb-4 text-white">Brand</h5>
@@ -173,14 +170,6 @@ const footer1 = () => {
                                 <Link className="text-muted" >{phone.value}</Link>
                             </div>
                         </div>
-                        {/* <div className="d-flex">
-                    <div className="mr-2"> <i className="las la-clock ic-2x text-primary" />
-                    </div>
-                    <div>
-                        <h6 className="mb-1 text-light">Working Hours</h6>
-                        <span className="text-muted">Mon - Fri: 10AM - 7PM</span>
-                    </div>
-                </div> */}
                     </div>
                 </Row>
                 <hr className="my-8" />

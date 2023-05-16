@@ -216,13 +216,11 @@ const productsingle = () => {
           />
           <title>{SelectedProduct.name}</title>
         </Helmet>
-
         <section className="p-2">
           {
             SelectedProduct ?
               <Container>
                 <Row>
-
                   <div className="col-lg-6 col-12" style={{ zIndex: `91` }}>
                     {
                       SelectedProduct.video_url ? <>
@@ -230,7 +228,6 @@ const productsingle = () => {
                           <FacebookEmbed url={SelectedProduct.video_url} />
                         </div>
                         {/* <ReactPlayer width="500" url={SelectedProduct.video_url} /> */}
-
                       </> : <>
                         <div className='signalImage' style={{ marginLeft: `75px` }}>
                           {
@@ -289,7 +286,6 @@ const productsingle = () => {
                         </div>
                         <Container>
                           <Row className='mb-2' style={{ marginLeft: `40px` }}>
-
                             {SelectedProduct?.images?.map((image, index) => {
                               return (
 
@@ -298,7 +294,6 @@ const productsingle = () => {
                                 }} xs={2} xl={2} lg={4} md={4}>
                                   <img onClick={() => setImgShow(image)} className="img-fluid w-100" src={`${imgUrl}storage/app/public/product/${image}`} alt="hello" />
                                 </Col>
-
                               )
                             })}
                           </Row>
@@ -315,8 +310,7 @@ const productsingle = () => {
                       {/* <div className="star-rating mb-4"><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" /><i className="las la-star" />
                         </div> */}
                       <span className="product-price h4">
-                        <span className="product-price">
-
+                        <span className="product-price text-info">
                           {
                             SelectedProduct.discount > 0 ? SelectedProduct?.discount_type == 'percent' ? <> Discount:{Math.round((SelectedProduct.discount))}%</> : null : null
                           }
@@ -325,7 +319,7 @@ const productsingle = () => {
                             SelectedProduct.discount > 0 ? SelectedProduct?.discount_type == 'flat' ? <> Discount:৳{(Math.round((SelectedProduct?.discount) / convert, 2))}</> : null : null
                           }
                         </span><br />
-                        <span className="product-price">
+                        <span className="product-price text-info">
                           {
                             SelectedProduct.discount > 0 ? SelectedProduct?.discount_type == 'percent' ? <>৳{Math.round((SelectedProduct?.unit_price / convert) - (SelectedProduct?.unit_price / convert * SelectedProduct?.discount) / 100)}</> : <>৳{(Math.round(SelectedProduct?.unit_price / convert) - ((SelectedProduct?.discount) / convert))}</> : <>৳{Math.round(SelectedProduct?.unit_price / convert)}</>
                           }
@@ -430,15 +424,15 @@ const productsingle = () => {
                       <div className="d-flex align-items-center border-top border-bottom py-4 mt-5">
                         <h6 className="mb-0 mr-4">Share It:</h6>
                         <ul className="list-inline">
-                          <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-facebook" /></Link>
+                          <li className="list-inline-item"><Link className="bg-info shadow-sm rounded p-2" to="#"><i className="la la-facebook" /></Link>
                           </li>
-                          <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-dribbble" /></Link>
+                          <li className="list-inline-item"><Link className="bg-info shadow-sm rounded p-2" to="#"><i className="la la-dribbble" /></Link>
                           </li>
-                          <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-instagram" /></Link>
+                          <li className="list-inline-item"><Link className="bg-info shadow-sm rounded p-2" to="#"><i className="la la-instagram" /></Link>
                           </li>
-                          <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-twitter" /></Link>
+                          <li className="list-inline-item"><Link className="bg-info shadow-sm rounded p-2" to="#"><i className="la la-twitter" /></Link>
                           </li>
-                          <li className="list-inline-item"><Link className="bg-white shadow-sm rounded p-2" to="#"><i className="la la-linkedin" /></Link>
+                          <li className="list-inline-item"><Link className="bg-info shadow-sm rounded p-2" to="#"><i className="la la-linkedin" /></Link>
                           </li>
                         </ul>
                       </div>
@@ -469,30 +463,9 @@ const productsingle = () => {
                   {/* Tab panes */}
                   <TabContent activeTab={SelectedTab} className="pt-5 p-0">
                     <TabPane tabId="1" className="fade show" active>
-                      <Row className="align-items-center mb-3">
-                        {
-                          SelectedProduct?.images[0] ?
-                            <div className="col-md-4">
-                              <InnerImageZoom className="img-fluid w-100" src={`${imgUrl}storage/app/public/product/${SelectedProduct?.images[0]}`} alt="hello" />
-                            </div> : null
-                        }
-                        {
-                          SelectedProduct?.images[1] ?
-                            <div className="col-md-4">
-                              <InnerImageZoom className="img-fluid w-100" src={`${imgUrl}storage/app/public/product/${SelectedProduct?.images[1]}`} alt="hello" />
-                            </div> : null
-                        }
-                        {
-                          SelectedProduct?.images[2] ?
-                            <div className="col-md-4">
-                              <InnerImageZoom className="img-fluid w-100" src={`${imgUrl}storage/app/public/product/${SelectedProduct?.images[2]}`} alt="hello" />
-                            </div> : null
-                        }
 
-                      </Row>
                       <Row>
                         <div className="col-md-12 mt-5 mt-lg-0">
-                          <h3 className="mb-3">{SelectedProduct.name}</h3>
                           <p className="mb-5" ontentEditable='true' dangerouslySetInnerHTML={{ __html: SelectedProduct.details }}></p>
                           {/* <p className="">{SelectedProduct.details}</p>  */}
                         </div>
