@@ -124,12 +124,12 @@ class Header extends Component {
                 <HelmetProvider>
                     <Helmet>
                         <meta property="og:image" content="https://admin.sajerbela.com/storage/app/public/company/2023-03-31-6426dc9918aaa.png" />
-                        <meta property="og:url" content="https://sajerbela.com/" />
+                        <meta property="og:url" content="https://shop.flingex.com/" />
 
 
-                        <meta property="twitter:card" content="https://admin.sajerbela.com/storage/app/public/company/2023-03-31-6426dc9918aaa.png" />
+                        <meta property="twitter:card" content="https://admin.flingex.com/storage/app/public/company/2023-03-31-6426dc9918aaa.png" />
                         <meta property="twitter:title" content="Welcome To Sajer Bela Home" />
-                        <meta property="twitter:url" content="https://sajerbela.com/" />
+                        <meta property="twitter:url" content="https://shop.flingex.com/" />
                         <meta
                             property="twitter:description"
                             content="<p>বিসমিল্লাহির রাহমানির রাহিম<br />
@@ -174,9 +174,9 @@ class Header extends Component {
                                                                     Seller
                                                                 </DropdownToggle>
                                                                 <DropdownMenu className="childsubmenu" style={{ overflowY: 'scroll', maxHeight: "200px" }}>
-                                                                    <DropdownItem href="http://admin.sajerbela.com/shop/apply" target="_blank">Become a seller
+                                                                    <DropdownItem href="http://admin.flingex.com/shop/apply" target="_blank">Become a seller
                                                                     </DropdownItem>
-                                                                    <DropdownItem href="http://admin.sajerbela.com/seller/auth/login" target="_blank">Seller Login
+                                                                    <DropdownItem href="http://admin.flingex.com/seller/auth/login" target="_blank">Seller Login
                                                                     </DropdownItem>
                                                                 </DropdownMenu>
                                                             </UncontrolledDropdown>
