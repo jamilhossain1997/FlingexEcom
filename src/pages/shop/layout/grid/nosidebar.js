@@ -71,9 +71,9 @@ const nosidebar = (props) => {
 
             <div className="page-content">
                 <section>
-                    <Container>
+                    <Container fluid>
                         <Row>
-                            <Col lg={9} md={12} className="order-lg-1">
+                            <Col lg={8} md={12} className="order-lg-1">
                                 {/* <Topbar productdata={this.state.pro.length} /> */}
                                 <Row>
 
@@ -108,6 +108,10 @@ const nosidebar = (props) => {
                                         </button>
                                     )}
                                 </div>
+                            </Col>
+                            <Col lg={2} md={12} className="order-lg-2">
+                                {/* <Sidebar productdata={pro} />
+                                <Sidebar /> */}
                             </Col>
                             <Col lg={3} md={12} className="sidebar mt-8 mt-lg-0">
                                 <Sidebar productdata={pro} />
