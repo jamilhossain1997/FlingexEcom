@@ -335,6 +335,7 @@ const productsingle = () => {
                       </span>
                       <ul className="list-unstyled my-4">
                         <li className="mb-2">Availibility: <span className="text-muted"> In Stock({SelectedProduct.current_stock})</span>
+                          {SelectedProduct?.seller?.f_name}
                         </li>
                         {/* <li>Categories :<span className="text-muted">  {SelectedProduct.category}</span>
                       </li> */}

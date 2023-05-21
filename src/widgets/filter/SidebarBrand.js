@@ -20,9 +20,9 @@ const SidebarBrand = () => {
                         <>
                             <div className='container' key={index}>
                                 <div className='row'>
-                                    <a className='text-info' href={`/grid-left-sidebar/${cate.id}`}>
+                                    <a className='text-info' href={`/grid-left-sidebar/${cate.id}`} style={{ fontSize: `12px` }}>
                                         {/* <input type="checkbox" onClick={(e) => this.CategoryFilter(e, categoryFilterValues)} value={cate} defaultChecked={categoryFilterValues.includes(cate) ? true : false} className="custom-control-input" id={cate} /> */}
-                                        <li > {cate?.name}</li>
+                                        <li> {cate?.name}</li>
                                     </a>
                                 </div>
                             </div>

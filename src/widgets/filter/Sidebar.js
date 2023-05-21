@@ -31,8 +31,8 @@ const Sidebar = () => {
                             <>
                                 <div className='container' key={index}>
                                     <div className='row'>
-                                        <a href={`/category/${cate.slug}`} className='text-info'>
-                                            <li>{cate?.name}</li>
+                                        <a href={`/category/${cate.slug}`} className='text-info' style={{ fontSize: `12px` }}>
+                                            <li >{cate?.name}</li>
                                         </a>
                                     </div>
                                 </div>

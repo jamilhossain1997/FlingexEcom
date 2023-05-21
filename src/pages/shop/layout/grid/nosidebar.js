@@ -8,6 +8,7 @@ import Sidebar from '../../../../widgets/filter/Sidebar';
 import Topbar from '../../../../widgets/filter/Topbar';
 import Listview from '../../../../widgets/shop/listview';
 import Pageheading from '../../../../widgets/pageheading';
+import imgUrl from '../../../../api/baseUrl';
 import apiClient from '../../../../api/http-common';
 import { Helmet } from 'react-helmet';
 
@@ -19,7 +20,8 @@ const nosidebar = (props) => {
 
     const [visible, setVisible] = useState(12);
     const [isCompleted, setIsCompleted] = useState(false);
-
+    const [randomPro, setRandomPro] = useState([]);
+    const convert = 0.011904761904762;
 
     // LoadMore
     const loadMore = () => {
@@ -39,6 +41,12 @@ const nosidebar = (props) => {
             .then(res => {
                 setPro(res.data);
                 console.log(res.data);
+            })
+    }, []);
+    useEffect(() => {
+        apiClient.get(`v1/products/productView`)
+            .then(res => {
+                setRandomPro(res.data.products);
             })
     }, []);
 
@@ -110,10 +118,48 @@ const nosidebar = (props) => {
                                 </div>
                             </Col>
                             <Col lg={2} md={12} className="order-lg-2">
-                                {/* <Sidebar productdata={pro} />
-                                <Sidebar /> */}
+                                {
+                                    randomPro?.map((productdata) =>
+                                        <>
+
+                                            <div className="card product-card">
+                                                <Link className="d-block" to={`/product-single/${productdata.slug}`}>
+                                                    {/* <img className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/${productdata.images[0]}`} alt="hello" /> */}
+                                                    <img className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} alt={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} />
+                                                </Link>
+                                                {/* <BiCaretRightCircle width={10} style={{ width: `20px` }} /> */}
+                                                <div className="product-title">
+                                                    <Link to={`/product-single/${productdata.slug}`} className="link-title " style={{ fontSize: 13 }}>
+                                                        <strong className="d-flex justify-content ml-1">
+                                                            {productdata.name}
+                                                        </strong>
+                                                    </Link>
+                                                </div>
+                                                <div className="mt-1">
+                                                    <span className="product-price text-info ml-1">
+                                                        {
+                                                            productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <>৳{Math.round((productdata?.unit_price / convert) - (productdata?.unit_price / convert * productdata?.discount) / 100)}</> : <>৳{(Math.round(productdata?.unit_price / convert) - ((productdata?.discount) / convert))}</> : <>৳{Math.round(productdata?.unit_price / convert)}</>
+                                                        }
+                                                    </span><br />
+                                                    <span className="product-price">
+                                                        {
+                                                            productdata?.discount > 0 ? <del className="text-muted ml-1 h6" style={{ fontSize: 12 }}> ৳{Math.round(productdata?.unit_price / convert, 2)}</del>
+                                                                : null
+                                                        }
+                                                        {
+                                                            productdata.discount > 0 ? productdata?.discount_type == 'percent' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>-{Math.round((productdata.discount))}%</span></> : null : null
+                                                        }
+                                                        {
+                                                            productdata.discount > 0 ? productdata?.discount_type == 'flat' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>- ৳{Math.round((productdata.discount / convert))}</span></> : null : null
+                                                        }
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )
+                                }
                             </Col>
-                            <Col lg={3} md={12} className="sidebar mt-8 mt-lg-0">
+                            <Col lg={2} md={12} className="sidebar mt-8 mt-lg-0">
                                 <Sidebar productdata={pro} />
                                 {/* <Sidebar /> */}
                             </Col>

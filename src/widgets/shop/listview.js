@@ -151,23 +151,26 @@ const listview = (props) => {
                                     {
                                         productdata.discount > 0 ? productdata?.discount_type == 'flat' ? <> <span className="text-muted h6 ml-1" style={{ fontSize: 12 }}>- ৳{Math.round((productdata.discount / convert))}</span></> : null : null
                                     }
+                                </span><br />
+                                <span className="product-price text-info ml-1">
+                                    In Stock:({productdata.current_stock})
                                 </span>
                             </div>
                         </div>
                         <div className="col-md-4 p-2">
                             <div className="product-title link-title mt-4" style={{ fontSize: 13 }}>
                                 <strong className="d-flex justify-content ml-1">
-                                    Seller:N/A
+                                    Seller:{productdata?.shop?.name ? productdata?.shop?.name : <>N/A</>}
                                 </strong>
-                            </div><br />
+                            </div>
                             <div className="product-title link-title" style={{ fontSize: 13 }}>
                                 <strong className="d-flex justify-content ml-1">
-                                    Visit Us: N/A
+                                    Address: {productdata?.shop?.address ? productdata?.shop?.address : <>N/A</>}
                                 </strong>
-                            </div><br />
+                            </div>
                             <div className="product-title link-title" style={{ fontSize: 13 }}>
                                 <strong className="d-flex justify-content ml-1">
-                                    Mobile:xxxxxxxxxxx
+                                    Mobile:{productdata?.shop?.contact ? productdata?.shop?.contact : <>N/A</>}
                                 </strong>
                             </div><br />
                             <div className="product-title link-title" style={{ fontSize: 13 }}>
