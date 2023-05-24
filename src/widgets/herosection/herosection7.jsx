@@ -32,7 +32,7 @@ const herosection7 = () => {
 
 
     return (
-        <section className="banner pos-r p-0">
+        <section className="banner pos-r p-0 mb-2">
             <OwlCarousel
                 className="banner-slider owl-carousel no-pb owl-2"
                 dots={false}

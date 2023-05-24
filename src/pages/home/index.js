@@ -27,6 +27,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Test from '../shop/product/test';
 import TopRated from '../../widgets/home1/topRated';
 import BestSelling from '../../widgets/home1/bestSelling';
+import Wholesaler from '../../widgets/home1/Wholesaler/Wholesaler';
 
 
 class index extends Component {
@@ -48,8 +49,8 @@ class index extends Component {
             <title>Home-Pages</title>
           </Helmet>
           <div className="page-content">
-
-            <Categories />
+            <Wholesaler />
+            {/* <Categories /> */}
             <div className="container-fluid mb-1">
               <FeaturedProduct />
             </div>
@@ -57,10 +58,10 @@ class index extends Component {
 
             <section>
               <div className="container-fluid px-lg-8">
-
                 <HomeCatgoryPro />
               </div>
             </section>
+
             {/*product end*/}
 
             {/*product start*/}

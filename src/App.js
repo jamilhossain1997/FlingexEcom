@@ -51,7 +51,8 @@ import userProfile from './pages/account/User/userProfile';
 // import Invoice from './pages/account/User/invoice';
 // import OneStepCheck from './pages/shop/product/oneStepCheck';
 import PriceSearch from './pages/shop/layout/grid/PriceSearch';
-
+import SubCategory from './pages/shop/layout/grid/subCategory';
+import SellerProduct from './widgets/shop/sellerProduct';
 class App extends React.Component {
 
   constructor(props) {
@@ -84,6 +85,8 @@ class App extends React.Component {
                 <Route path="/otpLogin" component={OtpLogin} />
                 <Route path="/Otpset" component={Otpset} />
                 <Route path="/userProfile" component={userProfile} />
+                <Route path="/subCategory/:id" component={SubCategory} />
+                <Route path="/seller_shop/:id" component={SellerProduct} />
                 {/* <Route path="/invoice/:id" component={Invoice} /> */}
                 {/* <Route path="/OneStepCheck" component={OneStepCheck} /> */}
                 <Route path="/PriceSearch" component={PriceSearch} />
