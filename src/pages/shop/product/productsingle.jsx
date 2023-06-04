@@ -24,6 +24,7 @@ import InnerImageZoom from 'react-inner-image-zoom';
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 import ReactImageMagnify from 'react-image-magnify';
 import { Button, message } from 'antd';
+import { Table } from 'reactstrap';
 window.fn = OwlCarousel;
 
 
@@ -335,7 +336,7 @@ const productsingle = () => {
                       </span>
                       <ul className="list-unstyled my-4">
                         <li className="mb-2">Availibility: <span className="text-muted"> In Stock({SelectedProduct.current_stock})</span>
-                          {SelectedProduct?.seller?.f_name}
+                          {/* -  {SelectedProduct?.seller?.f_name} */}
                         </li>
                         {/* <li>Categories :<span className="text-muted">  {SelectedProduct.category}</span>
                       </li> */}
@@ -353,56 +354,43 @@ const productsingle = () => {
 
                       {/* color & Size */}
                       <div className="d-sm-flex align-items-center mb-3">
-                        {SelectedProduct?.choice_options?.map((sizes, index) => {
-
-                          return (
-                            <>
-                              {
-                                sizes.options ? <>
-                                  <span className='mr-1' >Size:</span>
-                                  <select onChange={onChangeSize} className="custom-select mt-3 mt-sm-0" style={{ width: `70px` }}>
-                                    {sizes.options.map((options, index) =>
-                                      <option key={index} value={options}>{options}</option>)}
-                                  </select>
-
-                                </> : null
-
-                              }
-                            </>
-
-                          )
-
-                        }
-                        )}
-                      </div>
-
-                      <div className="ColorAlien d-sm-flex align-items-center mb-1" >
-                        <div className="d-flex text-center ml-sm-4 mt-3 mt-sm-0" id="inputGroupSelect02">
-                          {
-                            SelectedProduct?.colors == '' ? <>
-                            </> : <><span className='mr-3'>Color:</span></>
-                          }
-
-                          {SelectedProduct?.colors?.map((color, index) => {
-
-                            return (
-                              <>
+                        <Table bordered>
+                          <tbody>
+                            <tr>
+                              <td>Shop Name</td>
+                              <td>
                                 {
-                                  color.code ?
-                                    <><div className="form-check pl-0 mr-3">
-                                      <input type="checkbox" value={color.name} id={`color-filter${index}`} className="form-check-input" checked={selectedColor === color.name}
-                                        onChange={onChangeColor} />
-                                      <label className="form-check-label" htmlFor={`color-filter${index}`} style={{ background: `${color.code}` }} />
-                                    </div></> : null
+                                  SelectedProduct?.seller?.f_name ? <>{SelectedProduct?.seller?.f_name}-{SelectedProduct?.seller?.l_name} </> : <>N/A</>
                                 }
 
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>color</td>
+                              <td>
+                                {SelectedProduct?.colors?.map((color, index) => (
+                                  <>
+                                    {color?.name ? <>{color.name}</> : <>N/A</>}<br />
+                                  </>
+                                ))}
+                              </td>
+                            </tr>
+                            {SelectedProduct?.choice_options?.map((sizes, index) => (
+                              <>
+                                <tr>
+                                  <td>{sizes?.title}</td>
+                                  <td> {sizes?.options?.map((options, index) => (
+                                    <>{options}<br /></>
+                                  ))}</td>
+                                </tr>
                               </>
-                            )
-                          }
-                          )}
+                            ))}
+                          </tbody>
+                        </Table>
 
-                        </div>
                       </div>
+
+
 
                       {/* {contextHolder} */}
                       <div className="d-sm-flex align-items-center mt-5">
@@ -422,7 +410,7 @@ const productsingle = () => {
                             : <Link to="/" className="btn btn-info  mr-sm-4 mb-3 mb-sm-0" rel="nofollow" >Stock Out</Link>
                         }
                       </div>
-                      <div className="d-flex align-items-center border-top border-bottom py-4 mt-5">
+                      {/* <div className="d-flex align-items-center border-top border-bottom py-4 mt-5">
                         <h6 className="mb-0 mr-4">Share It:</h6>
                         <ul className="list-inline">
                           <li className="list-inline-item"><Link className="bg-info shadow-sm rounded p-2" to="#"><i className="la la-facebook" /></Link>
@@ -436,7 +424,7 @@ const productsingle = () => {
                           <li className="list-inline-item"><Link className="bg-info shadow-sm rounded p-2" to="#"><i className="la la-linkedin" /></Link>
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </Row>

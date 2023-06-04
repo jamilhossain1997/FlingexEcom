@@ -10,6 +10,8 @@ import Listview from '../../../../widgets/shop/listview';
 import Pageheading from '../../../../widgets/pageheading';
 import imgUrl from '../../../../api/baseUrl';
 import apiClient from '../../../../api/http-common';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { Helmet } from 'react-helmet';
 
 const PAGE_SIZE = 10;
@@ -81,7 +83,7 @@ const nosidebar = (props) => {
                 <section>
                     <Container fluid>
                         <Row>
-                            <Col lg={8} md={12} className="order-lg-1">
+                            <Col lg={9} md={12} className="order-lg-1">
                                 {/* <Topbar productdata={this.state.pro.length} /> */}
                                 <Row>
 
@@ -92,12 +94,21 @@ const nosidebar = (props) => {
                                             ))}
                                         </>
                                         :
-                                        <Col lg={9} md={12} className="order-lg-12">
-                                            <Row className="text-center12">
-                                                <h3>Sorry! No products were found matching your selection!    </h3>
-                                                <p>Please try to other words.</p>
+                                        <Container fluid>
+                                            <Row>
+                                                {
+                                                    Array(5).fill(undefined).map((v, i) =>
+                                                        <>
+                                                            <Col xs={6} xl={3} lg={2} md={6} key={i}>
+                                                                <Skeleton variant="rectangular" height={200} width={300} />
+                                                                <Skeleton variant="rectangular" width={300} count={3} />
+                                                            </Col>
+                                                        </>
+
+                                                    )
+                                                }
                                             </Row>
-                                        </Col>
+                                        </Container>
                                     }
 
                                 </Row>
@@ -117,17 +128,17 @@ const nosidebar = (props) => {
                                     )}
                                 </div>
                             </Col>
-                            <Col lg={2} md={12} className="order-lg-2">
+                            {/* <Col lg={2} md={12} className="order-lg-2">
                                 {
                                     randomPro?.map((productdata) =>
                                         <>
 
                                             <div className="card product-card">
                                                 <Link className="d-block" to={`/product-single/${productdata.slug}`}>
-                                                    {/* <img className="card-img-top card-img-back" src={`${imgUrl}storage/app/public/product/${productdata.images[0]}`} alt="hello" /> */}
+
                                                     <img className="card-img-top card-img-front" src={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} alt={`${imgUrl}storage/app/public/product/thumbnail/${productdata.thumbnail}`} />
                                                 </Link>
-                                                {/* <BiCaretRightCircle width={10} style={{ width: `20px` }} /> */}
+
                                                 <div className="product-title">
                                                     <Link to={`/product-single/${productdata.slug}`} className="link-title " style={{ fontSize: 13 }}>
                                                         <strong className="d-flex justify-content ml-1">
@@ -158,8 +169,8 @@ const nosidebar = (props) => {
                                         </>
                                     )
                                 }
-                            </Col>
-                            <Col lg={2} md={12} className="sidebar mt-8 mt-lg-0">
+                            </Col> */}
+                            <Col lg={3} md={12} className="sidebar mt-8 mt-lg-0">
                                 <Sidebar productdata={pro} />
                                 {/* <Sidebar /> */}
                             </Col>
